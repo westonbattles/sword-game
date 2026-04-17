@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 99232395}
   - component: {fileID: 99232394}
   - component: {fileID: 99232393}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (24)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -609,7 +609,7 @@ GameObject:
   - component: {fileID: 123147352}
   - component: {fileID: 123147351}
   - component: {fileID: 123147350}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (27)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1453,7 +1453,7 @@ GameObject:
   - component: {fileID: 316378896}
   - component: {fileID: 316378895}
   - component: {fileID: 316378894}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1565,7 +1565,7 @@ GameObject:
   - component: {fileID: 348309744}
   - component: {fileID: 348309743}
   - component: {fileID: 348309742}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1677,7 +1677,7 @@ GameObject:
   - component: {fileID: 349788017}
   - component: {fileID: 349788016}
   - component: {fileID: 349788015}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1789,7 +1789,7 @@ GameObject:
   - component: {fileID: 366550015}
   - component: {fileID: 366550014}
   - component: {fileID: 366550013}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2267,7 +2267,7 @@ GameObject:
   - component: {fileID: 442448555}
   - component: {fileID: 442448554}
   - component: {fileID: 442448553}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2430,7 +2430,7 @@ GameObject:
   - component: {fileID: 506960607}
   - component: {fileID: 506960606}
   - component: {fileID: 506960605}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2817,7 +2817,7 @@ GameObject:
   - component: {fileID: 622159888}
   - component: {fileID: 622159887}
   - component: {fileID: 622159886}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (26)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3112,7 +3112,7 @@ GameObject:
   - component: {fileID: 629717869}
   - component: {fileID: 629717868}
   - component: {fileID: 629717867}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3224,7 +3224,7 @@ GameObject:
   - component: {fileID: 637134068}
   - component: {fileID: 637134067}
   - component: {fileID: 637134066}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3519,7 +3519,7 @@ GameObject:
   - component: {fileID: 725814945}
   - component: {fileID: 725814944}
   - component: {fileID: 725814943}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3803,6 +3803,127 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &834849876
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 834849877}
+  - component: {fileID: 834849880}
+  - component: {fileID: 834849879}
+  - component: {fileID: 834849878}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &834849877
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834849876}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.84791, y: -0, z: 8.96307}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1304152314}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &834849878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834849876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0968570bda5694d7da5aa3e13f1d0361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  mainCamera: {fileID: 1922315182}
+  gravity: 40
+  gravityMultiplier: 1.025
+  groundAccel: 130
+  airAccel: 50
+  airSpeed: 1
+  friction: 12
+  jumpHeight: 12
+  jumpBufferTime: 0.2
+--- !u!114 &834849879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834849876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d1bc5515e3ab954e80599c538834774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KinematicCharacterController.KinematicCharacterMotor
+  Capsule: {fileID: 834849880}
+  CapsuleRadius: 0.4
+  CapsuleHeight: 1.75
+  CapsuleYOffset: 1
+  CapsulePhysicsMaterial: {fileID: 0}
+  GroundDetectionExtraDistance: 0
+  MaxStableSlopeAngle: 45
+  StableGroundLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  DiscreteCollisionEvents: 0
+  StepHandling: 1
+  MaxStepHeight: 0.55
+  AllowSteppingWithoutStableGrounding: 0
+  MinRequiredStepDepth: 0
+  LedgeAndDenivelationHandling: 1
+  MaxStableDistanceFromLedge: 0.25
+  MaxVelocityForLedgeSnap: 10
+  MaxStableDenivelationAngle: 45
+  InteractiveRigidbodyHandling: 1
+  RigidbodyInteractionType: 0
+  SimulatedCharacterMass: 1
+  PreserveAttachedRigidbodyMomentum: 1
+  HasPlanarConstraint: 0
+  PlanarConstraintAxis: {x: 0, y: 0, z: 1}
+  MaxMovementIterations: 5
+  MaxDecollisionIterations: 1
+  CheckMovementInitialOverlaps: 1
+  KillVelocityWhenExceedMaxMovementIterations: 1
+  KillRemainingMovementWhenExceedMaxMovementIterations: 1
+--- !u!136 &834849880
+CapsuleCollider:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834849876}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 1.75
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &848137237
 GameObject:
   m_ObjectHideFlags: 0
@@ -3815,7 +3936,7 @@ GameObject:
   - component: {fileID: 848137241}
   - component: {fileID: 848137240}
   - component: {fileID: 848137239}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (19)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4110,7 +4231,7 @@ GameObject:
   - component: {fileID: 928295193}
   - component: {fileID: 928295192}
   - component: {fileID: 928295191}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4222,7 +4343,7 @@ GameObject:
   - component: {fileID: 932888213}
   - component: {fileID: 932888212}
   - component: {fileID: 932888211}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4517,7 +4638,7 @@ GameObject:
   - component: {fileID: 969560741}
   - component: {fileID: 969560740}
   - component: {fileID: 969560739}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spawn Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4813,7 +4934,7 @@ GameObject:
   - component: {fileID: 1006575473}
   - component: {fileID: 1006575472}
   - component: {fileID: 1006575471}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4925,7 +5046,7 @@ GameObject:
   - component: {fileID: 1076389605}
   - component: {fileID: 1076389604}
   - component: {fileID: 1076389603}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (22)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5220,7 +5341,7 @@ GameObject:
   - component: {fileID: 1121903138}
   - component: {fileID: 1121903137}
   - component: {fileID: 1121903136}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5332,7 +5453,7 @@ GameObject:
   - component: {fileID: 1160170552}
   - component: {fileID: 1160170551}
   - component: {fileID: 1160170550}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5615,6 +5736,55 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1163573789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1163573790}
+  - component: {fileID: 1163573791}
+  m_Layer: 3
+  m_Name: PlayerCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1163573790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163573789}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.59, y: 1.83, z: 8.96}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1922315179}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1163573791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163573789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2e3157eee5d34851b5e56c21a1e64d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
+  cameraTarget: {fileID: 1304152314}
+  defaultFov: 90
+  mouseSensitivity: 0.4
+  maxCameraPitch: 85
 --- !u!1 &1166301293
 GameObject:
   m_ObjectHideFlags: 0
@@ -5627,7 +5797,7 @@ GameObject:
   - component: {fileID: 1166301296}
   - component: {fileID: 1166301295}
   - component: {fileID: 1166301294}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5739,7 +5909,7 @@ GameObject:
   - component: {fileID: 1175484654}
   - component: {fileID: 1175484653}
   - component: {fileID: 1175484652}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5851,7 +6021,7 @@ GameObject:
   - component: {fileID: 1177377060}
   - component: {fileID: 1177377059}
   - component: {fileID: 1177377058}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5963,7 +6133,7 @@ GameObject:
   - component: {fileID: 1191503747}
   - component: {fileID: 1191503746}
   - component: {fileID: 1191503745}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6075,7 +6245,7 @@ GameObject:
   - component: {fileID: 1221279024}
   - component: {fileID: 1221279023}
   - component: {fileID: 1221279022}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (25)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6187,7 +6357,7 @@ GameObject:
   - component: {fileID: 1249807605}
   - component: {fileID: 1249807604}
   - component: {fileID: 1249807603}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (23)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6287,6 +6457,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249807601}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1304152313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1304152314}
+  m_Layer: 0
+  m_Name: CameraTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1304152314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304152313}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 834849877}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1314103976
 GameObject:
   m_ObjectHideFlags: 0
@@ -6482,7 +6683,7 @@ GameObject:
   - component: {fileID: 1326475826}
   - component: {fileID: 1326475825}
   - component: {fileID: 1326475824}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6777,7 +6978,7 @@ GameObject:
   - component: {fileID: 1354818796}
   - component: {fileID: 1354818795}
   - component: {fileID: 1354818794}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6889,7 +7090,7 @@ GameObject:
   - component: {fileID: 1356175279}
   - component: {fileID: 1356175278}
   - component: {fileID: 1356175277}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7001,7 +7202,7 @@ GameObject:
   - component: {fileID: 1363911306}
   - component: {fileID: 1363911305}
   - component: {fileID: 1363911304}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7113,7 +7314,7 @@ GameObject:
   - component: {fileID: 1380439016}
   - component: {fileID: 1380439015}
   - component: {fileID: 1380439014}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (21)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7225,7 +7426,7 @@ GameObject:
   - component: {fileID: 1406963586}
   - component: {fileID: 1406963585}
   - component: {fileID: 1406963584}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7521,7 +7722,7 @@ GameObject:
   - component: {fileID: 1640066785}
   - component: {fileID: 1640066784}
   - component: {fileID: 1640066783}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7816,7 +8017,7 @@ GameObject:
   - component: {fileID: 1654101648}
   - component: {fileID: 1654101647}
   - component: {fileID: 1654101646}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7928,7 +8129,7 @@ GameObject:
   - component: {fileID: 1705926431}
   - component: {fileID: 1705926430}
   - component: {fileID: 1705926429}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8040,7 +8241,7 @@ GameObject:
   - component: {fileID: 1712974454}
   - component: {fileID: 1712974453}
   - component: {fileID: 1712974452}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (20)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8335,7 +8536,7 @@ GameObject:
   - component: {fileID: 1741574493}
   - component: {fileID: 1741574492}
   - component: {fileID: 1741574491}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8630,7 +8831,7 @@ GameObject:
   - component: {fileID: 1764326025}
   - component: {fileID: 1764326024}
   - component: {fileID: 1764326023}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8742,7 +8943,7 @@ GameObject:
   - component: {fileID: 1818284961}
   - component: {fileID: 1818284960}
   - component: {fileID: 1818284959}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DistanceTestCube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8852,6 +9053,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1874505102}
   - component: {fileID: 1874505101}
+  - component: {fileID: 1874505103}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -8939,6 +9141,172 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1874505103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874505100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
+--- !u!1 &1922315178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1922315179}
+  - component: {fileID: 1922315182}
+  - component: {fileID: 1922315181}
+  - component: {fileID: 1922315180}
+  m_Layer: 3
+  m_Name: Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1922315179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922315178}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1163573790}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1922315180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922315178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
+--- !u!81 &1922315181
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922315178}
+  m_Enabled: 1
+--- !u!20 &1922315182
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922315178}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.01
+  far clip plane: 1000
+  field of view: 95
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &1979750845
 GameObject:
   m_ObjectHideFlags: 0
@@ -8951,7 +9319,7 @@ GameObject:
   - component: {fileID: 1979750848}
   - component: {fileID: 1979750847}
   - component: {fileID: 1979750846}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9317,3 +9685,5 @@ SceneRoots:
   - {fileID: 1406963587}
   - {fileID: 2054527307}
   - {fileID: 492174782}
+  - {fileID: 834849877}
+  - {fileID: 1163573790}
