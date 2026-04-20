@@ -28,7 +28,7 @@
                     "name": "Attack",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -90,7 +90,7 @@
                 {
                     "name": "Throw",
                     "type": "Button",
-                    "id": "e4501cef-834a-4af5-99e8-9b28e370a39c",
+                    "id": "6be7a213-6a9e-4b54-9d29-7444a7ff0e50",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -485,7 +485,7 @@
                 },
                 {
                     "name": "",
-                    "id": "7364e3e7-f68d-431d-ba0e-1b17b5401fec",
+                    "id": "284309d3-810b-482e-aac4-a34b258e4e81",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
