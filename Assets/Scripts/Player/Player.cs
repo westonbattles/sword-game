@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(KinematicCharacterMotor))]
 public class Player : MonoBehaviour, ICharacterController
 {
+	
     [Header("Movement")]
     [SerializeField] Camera mainCamera;
     [SerializeField] float gravity = 40f;
