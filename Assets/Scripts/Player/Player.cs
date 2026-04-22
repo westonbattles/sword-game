@@ -17,8 +17,18 @@ public class Player : MonoBehaviour, ICharacterController
 	[SerializeField] float friction = 12f;
 	[SerializeField] float jumpHeight = 12f;
     [SerializeField] float jumpBufferTime = 0.2f;
+    
+    [Header("Dash")]
+    [SerializeField] public float dashSpeed = 10f;
+    
     public event Action OnJump;
     public event Action OnLand;
+    
+    Vector3 _pendingImpulse;
+    bool _hasPendingImpulse;
+    
+    public static Player Instance { get; private set; }
+    public KinematicCharacterMotor Motor => _motor;   
 
     KinematicCharacterMotor _motor;
     Quaternion _inputRot;
@@ -29,6 +39,7 @@ public class Player : MonoBehaviour, ICharacterController
 
     void Awake()
     {
+	    Instance = this;
         _motor = GetComponent<KinematicCharacterMotor>();
     }
 
@@ -64,9 +75,23 @@ public class Player : MonoBehaviour, ICharacterController
         if (forward != Vector3.zero)
             currentRotation = Quaternion.LookRotation(forward, _motor.CharacterUp);
     }
+    
+    public void DashTo(Vector3 target, float speed) {
+	    Vector3 dir = (target - transform.position).normalized;
+	    _pendingImpulse = dir * speed;
+	    _hasPendingImpulse = true;
+	    // TODO maybe figure out how to implement this in a way that adjusts based on if you dash straight into the ground vs along it
+	    _motor.ForceUnground(.25f); // lets you dash along objects without insta stopping you
+    }
 
 	void VelocitySet(ref Vector3 currentVelocity, float dt)
 	{
+		if (_hasPendingImpulse) {
+			currentVelocity = _pendingImpulse;
+			_hasPendingImpulse = false;
+			return;  // skip normal movement for this one frame
+		} 
+		
 		Vector3 inputDir = new Vector3(_moveInput.x, 0f, _moveInput.y);
 		inputDir = Quaternion.Euler(0, _inputRot.eulerAngles.y, 0) * inputDir;
 		inputDir = Vector3.ClampMagnitude(inputDir, 1f);
