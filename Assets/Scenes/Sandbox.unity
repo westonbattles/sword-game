@@ -4705,7 +4705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sword.SwordController
   throwSpeed: 10
-  reboundTime: 0.3
+  maxThrowDistance: 3
   holdPoint: {fileID: 626027206}
   cameraTransform: {fileID: 1163573790}
 --- !u!1 &622159884
@@ -6735,6 +6735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0968570bda5694d7da5aa3e13f1d0361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  autoBhop: 1
   mainCamera: {fileID: 1922315182}
   gravity: 40
   gravityMultiplier: 1.025

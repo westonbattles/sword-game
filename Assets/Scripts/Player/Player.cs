@@ -6,9 +6,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(KinematicCharacterMotor))]
 public class Player : MonoBehaviour, ICharacterController
 {
+	[Header("Gameplay")] 
+	[SerializeField] bool autoBhop;
 	
     [Header("Movement")]
-    [SerializeField] Camera mainCamera;
+    [SerializeField] public Camera mainCamera;
     [SerializeField] float gravity = 40f;
 	[SerializeField] float gravityMultiplier = 1.025f;
 	[SerializeField] float groundAccel  = 130f;
@@ -24,8 +26,8 @@ public class Player : MonoBehaviour, ICharacterController
     public event Action OnJump;
     public event Action OnLand;
     
-    Vector3 _pendingImpulse;
-    bool _hasPendingImpulse;
+    Vector3 _dashVelocity;
+    bool _shouldDash;
     
     public static Player Instance { get; private set; }
     public KinematicCharacterMotor Motor => _motor;   
@@ -34,7 +36,7 @@ public class Player : MonoBehaviour, ICharacterController
     Quaternion _inputRot;
     Vector2 _moveInput;
     bool _jumpInput;
-    bool _isJumpingThisFrame = false;
+    bool _isJumpingThisFrame;
     float _jumpBufferCounter;
 
     void Awake()
@@ -55,8 +57,8 @@ public class Player : MonoBehaviour, ICharacterController
 
     void UpdateInput()
     {
-        _moveInput = InputSystem.actions["Move"].ReadValue<Vector2>(); // _moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-        _jumpInput = InputSystem.actions["Jump"].WasPressedThisFrame(); // _jumpInput = Input.GetButtonDown("Jump");
+        _moveInput = InputSystem.actions["Move"].ReadValue<Vector2>(); 
+        _jumpInput = autoBhop ? InputSystem.actions["Jump"].IsPressed() : InputSystem.actions["Jump"].WasPressedThisFrame();
         _inputRot  = mainCamera.transform.rotation;
         if (_jumpInput)
             _jumpBufferCounter = jumpBufferTime;
@@ -76,19 +78,20 @@ public class Player : MonoBehaviour, ICharacterController
             currentRotation = Quaternion.LookRotation(forward, _motor.CharacterUp);
     }
     
-    public void DashTo(Vector3 target, float speed) {
-	    Vector3 dir = (target - transform.position).normalized;
-	    _pendingImpulse = dir * speed;
-	    _hasPendingImpulse = true;
+    // TODO - dash vector starts at eyes not at feet
+    /// Performs dash in a given direction with given speed
+    public void Dash(Vector3 directionNormalized, float speed) {
+	    _dashVelocity = directionNormalized * speed;
+	    _shouldDash = true;
 	    // TODO maybe figure out how to implement this in a way that adjusts based on if you dash straight into the ground vs along it
 	    _motor.ForceUnground(.25f); // lets you dash along objects without insta stopping you
     }
 
 	void VelocitySet(ref Vector3 currentVelocity, float dt)
 	{
-		if (_hasPendingImpulse) {
-			currentVelocity = _pendingImpulse;
-			_hasPendingImpulse = false;
+		if (_shouldDash) {
+			currentVelocity = _dashVelocity;
+			_shouldDash = false;
 			return;  // skip normal movement for this one frame
 		} 
 		

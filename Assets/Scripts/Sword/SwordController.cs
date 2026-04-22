@@ -10,22 +10,26 @@ namespace Sword
     public class SwordController : MonoBehaviour
     {
         
-        public float throwSpeed = 10f;
-        public float reboundTime = 0.5f; // how far the sword can go before giving you boost
-        public GameObject holdPoint;
-        public Transform cameraTransform;
-        
+        [SerializeField] float throwSpeed = 10f;
+        [SerializeField] float maxThrowDistance = 5f;
+        [SerializeField] GameObject holdPoint;
+        [SerializeField] Transform cameraTransform;
+
         private Rigidbody _rigidbody;
-        private KinematicCharacterMotor _playerMoter;
+        private KinematicCharacterMotor _playerMotor;
         private bool _isHeld; // either held or being thrown
-        private bool _throwInput;
-        private float _throwTime;
         private bool _shouldTriggerPlayerDash;
+        private float _maxThrowTime;
+        private float _throwTime;
+        
+        private bool _throwInput;
+        
 
 
         private void Start()
         {
-            _playerMoter = Player.Instance.Motor;
+            _playerMotor = Player.Instance.Motor;
+            _maxThrowTime = maxThrowDistance/throwSpeed;
         }
 
         private void Awake()
@@ -50,25 +54,26 @@ namespace Sword
         private void Throw()
         {
             _isHeld = false;
+            _throwTime = Time.time;
+            
+            Vector3 aimPoint = cameraTransform.position + cameraTransform.forward * maxThrowDistance;
+            Vector3 throwDir = (aimPoint - transform.position).normalized;
+            
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
             _shouldTriggerPlayerDash = true;
-            _throwTime = Time.time;
             transform.parent = null;
             _rigidbody.isKinematic = false;
-            _rigidbody.linearVelocity = (cameraTransform.forward * throwSpeed) + _playerMoter.Velocity;
+            _rigidbody.linearVelocity = (throwDir * throwSpeed) + _playerMotor.Velocity;
         }
 
         private void CheckIfShouldDash()
         {
-
-            float currentTime = Time.time;
-            if (currentTime >= reboundTime + _throwTime && _shouldTriggerPlayerDash)
+            if (_shouldTriggerPlayerDash && (getDistFromCamera() >= maxThrowDistance) || (Time.time - _throwTime >= _maxThrowTime))
             {
                 _rigidbody.isKinematic = true;
-                Player.Instance.DashTo(transform.position, Player.Instance.dashSpeed);
+                Player.Instance.Dash((transform.position - Player.Instance.mainCamera.transform.position).normalized, Player.Instance.dashSpeed);
                 _shouldTriggerPlayerDash = false;
                 Catch(); // give the sword back to the player
-                
             }
         }
 
@@ -82,6 +87,11 @@ namespace Sword
             transform.SetParent(holdPoint.transform, false);
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
+        }
+        
+        private float getDistFromCamera()
+        {
+            return (transform.position - Player.Instance.mainCamera.transform.position).magnitude;
         }
     }
 }
