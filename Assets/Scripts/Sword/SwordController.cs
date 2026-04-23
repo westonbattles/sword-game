@@ -56,8 +56,13 @@ namespace Sword
             _isHeld = false;
             _throwTime = Time.time;
             
+            
             Vector3 aimPoint = cameraTransform.position + cameraTransform.forward * maxThrowDistance;
             Vector3 throwDir = (aimPoint - transform.position).normalized;
+            
+            // TODO - smoother rotation
+           // transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(throwDir), 360) * Quaternion.Euler(90, 0, 0);;
+            
             
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
             _shouldTriggerPlayerDash = true;
