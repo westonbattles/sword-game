@@ -1071,6 +1071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GruntController
   target: {fileID: 1163573790}
   minDistance: 2
+  maxDistance: 15
 --- !u!1 &61619889
 GameObject:
   m_ObjectHideFlags: 0
@@ -10244,7 +10245,7 @@ MonoBehaviour:
   cameraTarget: {fileID: 1304152314}
   defaultFov: 90
   mouseSensitivity: 0.4
-  maxCameraPitch: 85
+  maxCameraPitch: 90
 --- !u!1 &1166301293
 GameObject:
   m_ObjectHideFlags: 0
