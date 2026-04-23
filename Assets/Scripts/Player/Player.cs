@@ -11,8 +11,8 @@ public class Player : MonoBehaviour, ICharacterController
 	
     [Header("Movement")]
     [SerializeField] public Camera mainCamera;
-    [SerializeField] float gravity = 40f;
-	[SerializeField] float gravityMultiplier = 1.025f;
+    [SerializeField] public float gravity = 40f;
+	[SerializeField] public float gravityMultiplier = 1.025f;
 	[SerializeField] float groundAccel  = 130f;
 	[SerializeField] float airAccel = 50f;
 	[SerializeField] float airSpeed = 1f;
@@ -30,7 +30,8 @@ public class Player : MonoBehaviour, ICharacterController
     bool _shouldDash;
     
     public static Player Instance { get; private set; }
-    public KinematicCharacterMotor Motor => _motor;   
+    public KinematicCharacterMotor Motor => _motor;
+    public bool IsGrounded => _motor.GroundingStatus.IsStableOnGround;
 
     KinematicCharacterMotor _motor;
     Quaternion _inputRot;
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour, ICharacterController
     {
 	    Instance = this;
         _motor = GetComponent<KinematicCharacterMotor>();
+        if (autoBhop) jumpBufferTime = 0.01f; // jump buffer with auto bhop feels bad
     }
 
     void Start()
@@ -65,7 +67,8 @@ public class Player : MonoBehaviour, ICharacterController
         else
             _jumpBufferCounter -= Time.deltaTime;
     }
-
+	
+    // Called from KinematicCharacterMotor 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
         VelocitySet(ref currentVelocity, deltaTime);
@@ -95,6 +98,7 @@ public class Player : MonoBehaviour, ICharacterController
 			return;  // skip normal movement for this one frame
 		} 
 		
+		// inputdir is just which global direction the player is trying to move in
 		Vector3 inputDir = new Vector3(_moveInput.x, 0f, _moveInput.y);
 		inputDir = Quaternion.Euler(0, _inputRot.eulerAngles.y, 0) * inputDir;
 		inputDir = Vector3.ClampMagnitude(inputDir, 1f);

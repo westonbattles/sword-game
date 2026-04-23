@@ -21,6 +21,9 @@ namespace Sword
         private bool _shouldTriggerPlayerDash;
         private float _maxThrowTime;
         private float _throwTime;
+        private Vector3 _throwDirection;
+        private Vector3 _dashDirection;
+        private bool _wasGroundedAtThrow;
         
         private bool _throwInput;
         
@@ -46,19 +49,24 @@ namespace Sword
             else if (!_isHeld) { CheckIfShouldDash(); }
         }
 
-        private void FixedUpdate()
+        private void FixedUpdate()                                                                                  
         {
-            
+            // Gravity only affects the sword when we're in the air for more arcadey/synced sword thorws
+            if (_isHeld || _rigidbody.isKinematic || _wasGroundedAtThrow) return;
+            _rigidbody.AddForce(Vector3.down * Player.Instance.gravity, ForceMode.Acceleration);
         }
 
         private void Throw()
         {
             _isHeld = false;
             _throwTime = Time.time;
+            _wasGroundedAtThrow = Player.Instance.IsGrounded;
             
             
             Vector3 aimPoint = cameraTransform.position + cameraTransform.forward * maxThrowDistance;
             Vector3 throwDir = (aimPoint - transform.position).normalized;
+            _throwDirection = throwDir;
+            _dashDirection = cameraTransform.forward;
             
             // TODO - smoother rotation
            // transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(throwDir), 360) * Quaternion.Euler(90, 0, 0);;
@@ -70,13 +78,22 @@ namespace Sword
             _rigidbody.isKinematic = false;
             _rigidbody.linearVelocity = (throwDir * throwSpeed) + _playerMotor.Velocity;
         }
-
         private void CheckIfShouldDash()
         {
-            if (_shouldTriggerPlayerDash && (getDistFromCamera() >= maxThrowDistance) || (Time.time - _throwTime >= _maxThrowTime))
+            bool throwExceededMaxDistance = getDistFromCamera() >= maxThrowDistance;
+            bool throwExceededMaxTime = Time.time - _throwTime >= _maxThrowTime;
+            bool swordGettingCloserToPlayer = Vector3.Dot(transform.position - Player.Instance.mainCamera.transform.position, _rigidbody.linearVelocity - Player.Instance.Motor.Velocity) < 0;
+            
+            // If an external force (ie, hitting the ground after falling) stops us right after throwing the sword
+            // theres a chance it'll start getting closer to us before the dash gets triggered
+            // which is why we add this swordGettingCloserToPlayer check
+            bool shouldDash = _shouldTriggerPlayerDash &&
+                              (throwExceededMaxDistance || throwExceededMaxTime || swordGettingCloserToPlayer);
+            
+            if (shouldDash)
             {
                 _rigidbody.isKinematic = true;
-                Player.Instance.Dash((transform.position - Player.Instance.mainCamera.transform.position).normalized, Player.Instance.dashSpeed);
+                Player.Instance.Dash(_dashDirection, Player.Instance.dashSpeed);
                 _shouldTriggerPlayerDash = false;
                 Catch(); // give the sword back to the player
             }
