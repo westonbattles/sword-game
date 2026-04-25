@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - ManaSprite
+  - HealthSprite
+  - ManaZone
+  - HealthZone
   layers:
   - Default
   - TransparentFX
