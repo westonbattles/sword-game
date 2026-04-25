@@ -1076,8 +1076,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GruntController
   target: {fileID: 1163573790}
-  healthSystem: {fileID: 0}
-  minDistance: 2
+  healthSystem: {fileID: 1569773477}
+  minDistance: 2.5
   maxDistance: 15
   attackInterval: 1
   attackDamage: 20
@@ -6962,11 +6962,11 @@ MonoBehaviour:
   MinRequiredStepDepth: 0
   LedgeAndDenivelationHandling: 1
   MaxStableDistanceFromLedge: 0.25
-  MaxVelocityForLedgeSnap: 10
+  MaxVelocityForLedgeSnap: 1
   MaxStableDenivelationAngle: 45
   InteractiveRigidbodyHandling: 1
   RigidbodyInteractionType: 0
-  SimulatedCharacterMass: 1
+  SimulatedCharacterMass: 10
   PreserveAttachedRigidbodyMomentum: 1
   HasPlanarConstraint: 0
   PlanarConstraintAxis: {x: 0, y: 0, z: 1}
@@ -13444,6 +13444,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
   m_PrefabInstance: {fileID: 1569773475}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1569773477 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5510382441765092197, guid: f7162b84863baba4bafb2589864e6802, type: 3}
+  m_PrefabInstance: {fileID: 1569773475}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7875c39547040924ba157aab059c2394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1597057431
 GameObject:
   m_ObjectHideFlags: 0
