@@ -1076,8 +1076,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GruntController
   target: {fileID: 1163573790}
+  healthSystem: {fileID: 0}
   minDistance: 2
   maxDistance: 15
+  attackInterval: 1
+  attackDamage: 20
+  attackRange: 2.5
 --- !u!54 &44800305
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13407,11 +13411,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -106.4
+      value: -430
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -281.5
+      value: -435
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

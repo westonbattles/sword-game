@@ -4,36 +4,55 @@ using UnityEngine.AI;
 public class GruntController : MonoBehaviour
 {
     public Transform target;
+    public HealthSystem healthSystem;
     private NavMeshAgent navMeshAgent;
     public float minDistance = 2f;
     public float maxDistance = 15f;
+    private float distanceToPlayer;
+    public float attackInterval = 1f;
+    private float attackTimer = 0f;
+    public float attackDamage = 20f;
+    public float attackRange = 2.5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = minDistance;
+        healthSystem = GetComponent<HealthSystem>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (target != null)
         {
-            if (target != null)
+            distanceToPlayer = Vector3.Distance(transform.position, target.position);
+            // basic player chasing
+            if (IgnorePlayerCheck() == 1)
             {
-                // basic player chasing
-                if (IgnorePlayerCheck() == 1)
-                {
-                    navMeshAgent.SetDestination(target.position);
-                }
+                navMeshAgent.SetDestination(target.position);
+            }
 
-                // keeps the grunt facing player if it's within stop distance
-                if (Vector3.Distance(transform.position, target.position) < minDistance)
+            // keeps the grunt facing player if it's within stop distance
+            if (distanceToPlayer < minDistance)
+            {
+                KeepRotation();
+            }
+
+            // attack logic
+            if (distanceToPlayer <= attackRange)
+            {
+                attackTimer += Time.deltaTime;
+                if (attackTimer >= attackInterval)
                 {
-                    KeepRotation();
+                    // Perform attack
+                    Attack();
+                    attackTimer = 0f;
                 }
             }
         }
+
     }
 
     // without this, the grunt wont rotate towards the player if its within the stop distance
@@ -47,6 +66,14 @@ public class GruntController : MonoBehaviour
     // disables grunt ai when player is far enough away so its not needlessly pathfinding
     int IgnorePlayerCheck()
     {
-        return Vector3.Distance(transform.position, target.position) <= maxDistance ? 1 : 0;
+        return distanceToPlayer <= maxDistance ? 1 : 0;
+    }
+
+    void Attack()
+    {
+        if (distanceToPlayer <= attackRange)
+        {
+            HealthSystem.Instance.TakeDamage(attackDamage);
+        }
     }
 }
