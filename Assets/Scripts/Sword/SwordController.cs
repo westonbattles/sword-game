@@ -45,7 +45,7 @@ namespace Sword
         private void Update()
         {
             _throwInput = InputSystem.actions["Throw"].WasPressedThisFrame();
-            if (_throwInput && _isHeld) { Throw(); }
+            if (_throwInput && _isHeld && HealthSystem.Instance.manaPoint >= 20) { Throw(); }
             else if (!_isHeld) { CheckIfShouldDash(); }
         }
 

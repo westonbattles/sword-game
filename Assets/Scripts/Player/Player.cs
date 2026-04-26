@@ -82,15 +82,12 @@ public class Player : MonoBehaviour, ICharacterController
             currentRotation = Quaternion.LookRotation(forward, _motor.CharacterUp);
     }
     
-    // TODO - dash vector starts at eyes not at feet
     /// Performs dash in a given direction with given speed
     public void Dash(Vector3 directionNormalized, float speed) {
-		if (HealthSystem.Instance.manaPoint < 20) return; // not enough mana to dash
 	    _dashVelocity = directionNormalized * speed;
 	    _shouldDash = true;
-	    // TODO maybe figure out how to implement this in a way that adjusts based on if you dash straight into the ground vs along it
 	    _motor.ForceUnground(.25f); // lets you dash along objects without insta stopping you
-		HealthSystem.Instance.UseMana(20); // consumes 20 mana on dash
+	    HealthSystem.Instance.UseMana(20); // consumes 20 mana on dash
     }
 
 	void VelocitySet(ref Vector3 currentVelocity, float dt)
