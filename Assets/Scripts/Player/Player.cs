@@ -224,30 +224,6 @@ public class Player : MonoBehaviour, ICharacterController
             _isJumpingThisFrame = true;
         }
     }
-
-<<<<<<< HEAD
-    public bool IsColliderValidForCollisions(Collider coll){return true;}
-    public void OnDiscreteCollisionDetected(Collider hitCollider){}
-    public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport){}
-    public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport){}
-    public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport){}
-	public void OnTriggerEnter(Collider other)
-	{
-		Debug.Log("Player entered trigger with tag " + other.tag);
-		if (other.gameObject.CompareTag("HealthZone"))
-		{
-			HealthSystem.Instance.HealDamage(HealthSystem.Instance.maxHitPoint);
-		} else if (other.gameObject.CompareTag("ManaZone"))
-		{
-			HealthSystem.Instance.RestoreMana(HealthSystem.Instance.maxManaPoint);
-		}
-
-		if (other.gameObject.CompareTag("ShowBars"))
-		{
-			Bars.SetActive(true);
-		}
-	}
-=======
     public bool IsColliderValidForCollisions(Collider coll) { return true; }
     public void OnDiscreteCollisionDetected(Collider hitCollider) { }
     public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport) { }
@@ -264,6 +240,10 @@ public class Player : MonoBehaviour, ICharacterController
         {
             HealthSystem.Instance.RestoreMana(HealthSystem.Instance.maxManaPoint);
         }
+		if (other.gameObject.CompareTag("ShowBars"))
+		{
+			Bars.SetActive(true);
+		}
     }
 
     public void Attack()
@@ -314,5 +294,4 @@ public class Player : MonoBehaviour, ICharacterController
 
         
     }
->>>>>>> 8b4a38d661628f0b1c161181d3d8e897bff93fa5
 }
