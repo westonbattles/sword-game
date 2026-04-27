@@ -47,7 +47,10 @@ public class Player : MonoBehaviour, ICharacterController
     bool readyToAttack = true;
     int attackCount;
 
-
+    [Header("Debug")]
+    [SerializeField] private bool depleteStamina = true;
+    
+    
     Vector3 _dashVelocity;
     bool _shouldDash;
 
@@ -121,7 +124,7 @@ public class Player : MonoBehaviour, ICharacterController
         _dashVelocity = directionNormalized * speed;
         _shouldDash = true;
         _motor.ForceUnground(.25f); // lets you dash along objects without insta stopping you
-        HealthSystem.Instance.UseMana(20); // consumes 20 mana on dash
+        if (depleteStamina) HealthSystem.Instance.UseMana(20); // consumes 20 mana on dash
     }
 
     void VelocitySet(ref Vector3 currentVelocity, float dt)
