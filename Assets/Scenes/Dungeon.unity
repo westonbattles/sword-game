@@ -5093,6 +5093,17 @@ MonoBehaviour:
   jumpBufferTime: 0.2
   dashSpeed: 30
   HealthSystem: {fileID: 0}
+  wallRunDetectDistance: 0.8
+  wallRunMinSpeed: 4
+  wallRunMaxDuration: 1.4
+  wallAngleTolerance: 40
+  wallRunGravityScale: 0.15
+  wallRunFallThreshold: 3
+  wallRunAccel: 60
+  wallRunCooldown: 0.35
+  wallJumpUpForce: 10
+  wallJumpAwayForce: 7
+  wallJumpMomentumRetention: 1
 --- !u!114 &1702538785
 MonoBehaviour:
   m_ObjectHideFlags: 0
