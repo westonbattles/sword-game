@@ -13,13 +13,17 @@ public class GruntController : MonoBehaviour
     private float attackTimer = 0f;
     public float attackDamage = 20f;
     public float attackRange = 2.5f;
+
+    bool canAttack = true;
+
+    private Animator animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = minDistance;
         healthSystem = GetComponent<HealthSystem>();
-
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -53,6 +57,9 @@ public class GruntController : MonoBehaviour
             }
         }
 
+        // Animation update
+        animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
+
     }
 
     // without this, the grunt wont rotate towards the player if its within the stop distance
@@ -71,9 +78,18 @@ public class GruntController : MonoBehaviour
 
     void Attack()
     {
-        if (distanceToPlayer <= attackRange)
+        if (canAttack && distanceToPlayer <= attackRange)
         {
             HealthSystem.Instance.TakeDamage(attackDamage);
+            canAttack = false;
+            animator.SetTrigger("Attack");
+            Invoke(nameof(RefreshAttack), attackInterval);
         }
+    }
+
+    void RefreshAttack()
+    {
+        animator.ResetTrigger("Attack");
+        canAttack = true;
     }
 }
