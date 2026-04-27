@@ -39,6 +39,7 @@ public class Player : MonoBehaviour, ICharacterController
     bool _jumpInput;
     bool _isJumpingThisFrame;
     float _jumpBufferCounter;
+	public GameObject Bars;
 
     void Awake()
     {
@@ -211,6 +212,11 @@ public class Player : MonoBehaviour, ICharacterController
 		} else if (other.gameObject.CompareTag("ManaZone"))
 		{
 			HealthSystem.Instance.RestoreMana(HealthSystem.Instance.maxManaPoint);
+		}
+
+		if (other.gameObject.CompareTag("ShowBars"))
+		{
+			Bars.SetActive(true);
 		}
 	}
 }

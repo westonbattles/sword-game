@@ -8,6 +8,8 @@ TagManager:
   - HealthSprite
   - ManaZone
   - HealthZone
+  - ShowBars
+  - Bars
   layers:
   - Default
   - TransparentFX
