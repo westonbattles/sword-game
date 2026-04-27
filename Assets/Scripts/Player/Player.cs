@@ -1,9 +1,11 @@
 ﻿using KinematicCharacterController;
 using System;
 using System.Collections.Specialized;
+using System.Collections;
 using System.Diagnostics;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(KinematicCharacterMotor))]
@@ -93,6 +95,10 @@ public class Player : MonoBehaviour, ICharacterController
         if (InputSystem.actions["Attack"].IsPressed())
         {
             Attack();
+        }
+        if (InputSystem.actions["Reset"].IsPressed())
+        {
+            Die();
         }
     }
 
@@ -294,5 +300,19 @@ public class Player : MonoBehaviour, ICharacterController
         Destroy(GO, 20);
 
         
+    }
+
+    public void Die()
+    {
+        StartCoroutine(DeathRoutine());
+    }
+
+    private IEnumerator DeathRoutine()
+    {
+        GetComponent<KinematicCharacterMotor>().enabled = false;
+
+        yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
