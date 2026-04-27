@@ -59,6 +59,7 @@ public class Player : MonoBehaviour, ICharacterController
     bool _jumpInput;
     bool _isJumpingThisFrame;
     float _jumpBufferCounter;
+    [Header("Map Triggers")]
 	public GameObject Bars;
 
     void Awake()
