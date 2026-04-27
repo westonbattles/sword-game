@@ -15,6 +15,7 @@ using UnityEngine.UI;
 public class HealthSystem : MonoBehaviour
 {
 	public static HealthSystem Instance;
+	public static Player PlayerInstance;
 
 	public Image currentHealthBar;
 	public Text healthText;
@@ -41,6 +42,7 @@ public class HealthSystem : MonoBehaviour
 	void Awake()
 	{
 		Instance = this;
+		PlayerInstance = GetComponent<Player>();
 	}
 	
 	//==============================================================
@@ -189,7 +191,7 @@ public class HealthSystem : MonoBehaviour
 	IEnumerator PlayerDied()
 	{
 		// Player is dead. Do stuff.. play anim, sound..
-
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		yield return null;
 	}
 }
