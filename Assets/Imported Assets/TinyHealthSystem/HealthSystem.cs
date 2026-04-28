@@ -15,6 +15,7 @@ using UnityEngine.UI;
 public class HealthSystem : MonoBehaviour
 {
 	public static HealthSystem Instance;
+	public static Player PlayerInstance;
 
 	public Image currentHealthBar;
 	public Text healthText;
@@ -28,8 +29,12 @@ public class HealthSystem : MonoBehaviour
 	//==============================================================
 	// Regenerate Health & Mana
 	//==============================================================
-	public bool Regenerate = true;
-	public float regen = 0.1f;
+	[Header("Regeneration")]
+	public bool RegenerateHealth = true;
+	public float hpRegen = 5f;
+	public bool RegenerateMana = true;
+	public float mpRegen = 10f;
+
 	private float timeleft = 0.0f;	// Left time for current interval
 	public float regenUpdateInterval = 1f;
 
@@ -41,6 +46,7 @@ public class HealthSystem : MonoBehaviour
 	void Awake()
 	{
 		Instance = this;
+		PlayerInstance = GetComponent<Player>();
 	}
 	
 	//==============================================================
@@ -57,14 +63,18 @@ public class HealthSystem : MonoBehaviour
 	//==============================================================
 	void Update ()
 	{
-		if (Regenerate)
-			Regen();
+		if (RegenerateHealth) {
+			RegenHealth();
+		}
+		if (RegenerateMana) {
+			RegenMana();
+		}
 	}
 
 	//==============================================================
 	// Regenerate Health & Mana
 	//==============================================================
-	private void Regen()
+	private void RegenHealth()
 	{
 		timeleft -= Time.deltaTime;
 
@@ -74,12 +84,10 @@ public class HealthSystem : MonoBehaviour
 			if (GodMode)
 			{
 				HealDamage(maxHitPoint);
-				RestoreMana(maxManaPoint);
 			}
 			else
 			{
-				HealDamage(regen);
-				RestoreMana(regen);				
+				HealDamage(hpRegen);			
 			}
 
 			UpdateGraphics();
@@ -87,6 +95,30 @@ public class HealthSystem : MonoBehaviour
 			timeleft = regenUpdateInterval;
 		}
 	}
+
+	private void RegenMana()
+	{
+		timeleft -= Time.deltaTime;
+
+		if (timeleft <= 0.0) // Interval ended - update health & mana and start new interval
+		{
+			// Debug mode
+			if (GodMode)
+			{
+				RestoreMana(maxManaPoint);
+			}
+			else
+			{
+				RestoreMana(mpRegen);				
+			}
+
+			UpdateGraphics();
+
+			timeleft = regenUpdateInterval;
+		}
+	}
+
+
 
 	//==============================================================
 	// Health Logic
@@ -189,7 +221,7 @@ public class HealthSystem : MonoBehaviour
 	IEnumerator PlayerDied()
 	{
 		// Player is dead. Do stuff.. play anim, sound..
-
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		yield return null;
 	}
 }
