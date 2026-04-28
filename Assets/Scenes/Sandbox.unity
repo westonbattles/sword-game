@@ -8491,6 +8491,13 @@ MonoBehaviour:
   friction: 12
   jumpHeight: 12
   jumpBufferTime: 0.2
+  crouchHeight: 1
+  standingHeight: 1.75
+  crouchSpeedMax: 4
+  slideSpeed: 20
+  slideDuration: 0.8
+  slideCooldown: 1
+  slideFriction: 5
   dashSpeed: 30
   HealthSystem: {fileID: 0}
   attackDistance: 3
@@ -12606,6 +12613,9 @@ MonoBehaviour:
   defaultFov: 90
   mouseSensitivity: 0.4
   maxCameraPitch: 90
+  cameraStandY: 1.65
+  cameraCrouchY: 1
+  cameraLerpSpeed: 12
 --- !u!1 &1166301293
 GameObject:
   m_ObjectHideFlags: 0
