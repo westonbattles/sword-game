@@ -2793,19 +2793,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2817,11 +2817,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 1366
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 768
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2853,11 +2853,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -420
+      value: -379
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -435
+      value: -479
       objectReference: {fileID: 0}
     - target: {fileID: 5510382441765092198, guid: f7162b84863baba4bafb2589864e6802, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4832,6 +4832,9 @@ MonoBehaviour:
   defaultFov: 90
   mouseSensitivity: 0.4
   maxCameraPitch: 90
+  cameraStandY: 1.65
+  cameraCrouchY: 1
+  cameraLerpSpeed: 12
 --- !u!1 &795247332
 GameObject:
   m_ObjectHideFlags: 0
@@ -12322,6 +12325,13 @@ MonoBehaviour:
   friction: 12
   jumpHeight: 12
   jumpBufferTime: 0.2
+  crouchHeight: 1
+  standingHeight: 1.75
+  crouchSpeedMax: 4
+  slideSpeed: 20
+  slideDuration: 0.8
+  slideCooldown: 1
+  slideFriction: 5
   dashSpeed: 30
   HealthSystem: {fileID: 0}
   attackDistance: 3
@@ -12334,6 +12344,7 @@ MonoBehaviour:
   hitEffect: {fileID: 1297707600}
   swordSwing: {fileID: 8300000, guid: c01a67049a357e744a4687804a4cdc62, type: 3}
   hitSound: {fileID: 8300000, guid: 07fb184b2c30b3d46b63578c8e6d08a9, type: 3}
+  depleteStamina: 1
   Bars: {fileID: 324553569}
 --- !u!114 &1702538785
 MonoBehaviour:
