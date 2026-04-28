@@ -29,8 +29,12 @@ public class HealthSystem : MonoBehaviour
 	//==============================================================
 	// Regenerate Health & Mana
 	//==============================================================
-	public bool Regenerate = true;
-	public float regen = 0.1f;
+	[Header("Regeneration")]
+	public bool RegenerateHealth = true;
+	public float hpRegen = 5f;
+	public bool RegenerateMana = true;
+	public float mpRegen = 10f;
+
 	private float timeleft = 0.0f;	// Left time for current interval
 	public float regenUpdateInterval = 1f;
 
@@ -59,14 +63,18 @@ public class HealthSystem : MonoBehaviour
 	//==============================================================
 	void Update ()
 	{
-		if (Regenerate)
-			Regen();
+		if (RegenerateHealth) {
+			RegenHealth();
+		}
+		if (RegenerateMana) {
+			RegenMana();
+		}
 	}
 
 	//==============================================================
 	// Regenerate Health & Mana
 	//==============================================================
-	private void Regen()
+	private void RegenHealth()
 	{
 		timeleft -= Time.deltaTime;
 
@@ -76,12 +84,10 @@ public class HealthSystem : MonoBehaviour
 			if (GodMode)
 			{
 				HealDamage(maxHitPoint);
-				RestoreMana(maxManaPoint);
 			}
 			else
 			{
-				HealDamage(regen);
-				RestoreMana(regen);				
+				HealDamage(hpRegen);			
 			}
 
 			UpdateGraphics();
@@ -89,6 +95,30 @@ public class HealthSystem : MonoBehaviour
 			timeleft = regenUpdateInterval;
 		}
 	}
+
+	private void RegenMana()
+	{
+		timeleft -= Time.deltaTime;
+
+		if (timeleft <= 0.0) // Interval ended - update health & mana and start new interval
+		{
+			// Debug mode
+			if (GodMode)
+			{
+				RestoreMana(maxManaPoint);
+			}
+			else
+			{
+				RestoreMana(mpRegen);				
+			}
+
+			UpdateGraphics();
+
+			timeleft = regenUpdateInterval;
+		}
+	}
+
+
 
 	//==============================================================
 	// Health Logic
