@@ -92,6 +92,7 @@ namespace Sword
             
             if (shouldDash)
             {
+                Debug.Log($"DASH: distExceeded={throwExceededMaxDistance} timeExceeded={throwExceededMaxTime} closer={swordGettingCloserToPlayer}"); 
                 _rigidbody.isKinematic = true;
                 Player.Instance.Dash(_dashDirection, Player.Instance.dashSpeed);
                 _shouldTriggerPlayerDash = false;
