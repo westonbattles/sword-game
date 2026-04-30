@@ -8373,6 +8373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0968570bda5694d7da5aa3e13f1d0361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  playerAnimator: {fileID: 919132148963090199}
   autoBhop: 1
   mainCamera: {fileID: 1922315182}
   gravity: 40
@@ -20328,6 +20329,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450652683421100}
+  - component: {fileID: 919132148963090199}
   m_Layer: 0
   m_Name: player_knight_hands
   m_TagString: Untagged
@@ -20335,6 +20337,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &919132148963090199
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148963090198}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 3c97387902d264e5f8a28fbc07eafa2f, type: 3}
+  m_Controller: {fileID: 9100000, guid: 2d131bb2947274ecabafdd96ddf64164, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &991483531014700899
 Transform:
   m_ObjectHideFlags: 0

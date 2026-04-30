@@ -13,6 +13,9 @@ public class Player : MonoBehaviour, ICharacterController
 {
     AudioSource audioSource;
    
+    [SerializeField] Animator playerAnimator;
+    public Animator PlayerAnimator => playerAnimator;
+    
     [Header("Gameplay")]
     [SerializeField] bool autoBhop;
 
@@ -73,7 +76,9 @@ public class Player : MonoBehaviour, ICharacterController
     bool _shouldDash;
 
     public static Player Instance { get; private set; }
+    
     public KinematicCharacterMotor Motor => _motor;
+    
     public bool IsGrounded => _motor.GroundingStatus.IsStableOnGround;
     public bool IsCrouching => _isCrouching;
 
@@ -137,6 +142,9 @@ public GameObject Bars;
         if (InputSystem.actions["Attack"].IsPressed())
         {
             Attack();
+            // Swing animation
+            PlayerAnimator.SetTrigger("SwingTrigger");
+            
         }
         if (InputSystem.actions["Reset"].IsPressed())
         {
