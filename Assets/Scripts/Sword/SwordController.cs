@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using KinematicCharacterController;
@@ -10,6 +10,9 @@ namespace Sword
     public class SwordController : MonoBehaviour
     {
         
+        public static SwordController Instance { get; private set; }
+        
+        
         [SerializeField] float throwSpeed = 10f;
         [SerializeField] float maxThrowDistance = 5f;
         [SerializeField] GameObject holdPoint;
@@ -18,9 +21,10 @@ namespace Sword
         [Header("Animation Parameters")] 
         [SerializeField] Transform rHandBone;
 
+        public bool IsHeld { get; private set; } // either held or being thrown
+        
         private Rigidbody _rigidbody;
         private KinematicCharacterMotor _playerMotor;
-        private bool _isHeld; // either held or being thrown
         private bool _shouldTriggerPlayerDash;
         private float _maxThrowTime;
         private float _throwTime;
@@ -41,22 +45,35 @@ namespace Sword
 
         private void Awake()
         {
+            Instance = this;
             _rigidbody = GetComponent<Rigidbody>();
-            _isHeld = true;
+            IsHeld = true;
             _shouldTriggerPlayerDash = false;
         }
 
         private void Update()
         {
             _throwInput = InputSystem.actions["Throw"].WasPressedThisFrame();
-            if (_throwInput && _isHeld && HealthSystem.Instance.manaPoint >= 20) { Throw(); }
-            else if (!_isHeld) { CheckIfShouldDash(); }
+            if (_throwInput && IsHeld && HealthSystem.Instance.manaPoint >= 20)
+            {
+                if (Player.Instance.attacking)
+                {
+                    Player.Instance.ResetAttack();
+                    Player.Instance.ResetAttackAnimation();
+                    StartCoroutine(ThrowNextFrame());
+                }
+                else
+                {
+                    Throw();
+                }
+            }
+            else if (!IsHeld) { CheckIfShouldDash(); }
         }
 
         private void FixedUpdate()                                                                                  
         {
             // Gravity only affects the sword when we're in the air for more arcadey/synced sword thorws
-            if (_isHeld || _rigidbody.isKinematic || _wasGroundedAtThrow) return;
+            if (IsHeld || _rigidbody.isKinematic || _wasGroundedAtThrow) return;
             _rigidbody.AddForce(Vector3.down * Player.Instance.gravity, ForceMode.Acceleration);
         }
 
@@ -67,7 +84,8 @@ namespace Sword
 
         private void Throw()
         {
-            _isHeld = false;
+            
+            IsHeld = false;
             _throwTime = Time.time;
             _wasGroundedAtThrow = Player.Instance.IsGrounded;
             
@@ -87,6 +105,13 @@ namespace Sword
             _rigidbody.isKinematic = false;
             _rigidbody.linearVelocity = (throwDir * throwSpeed) + _playerMotor.Velocity;
         }
+
+        private IEnumerator ThrowNextFrame()
+        {
+            yield return null;
+            Throw();
+        }
+        
         private void CheckIfShouldDash()
         {
             bool throwExceededMaxDistance = getDistFromCamera() >= maxThrowDistance;
@@ -111,7 +136,7 @@ namespace Sword
 
         private void Catch()
         {
-            _isHeld = true;
+            IsHeld = true;
             
             // just tps sword back to player,
             // TODO: cool animation / sword movement to return to player

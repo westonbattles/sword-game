@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Collections;
 using System.Diagnostics;
 using System.Threading;
+using Sword;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
@@ -57,14 +58,14 @@ public class Player : MonoBehaviour, ICharacterController
     [Header("Attacking")]
     public float attackDistance = 3f;
     public float attackDelay = 0.4f;
-    public float attackSpeed = 1f;
+    public float attackSpeed = .25f;
     public int attackDamage = 5;
     public LayerMask attackLayer;
 
     public GameObject hitEffect;
     public AudioClip swordSwing;
     public AudioClip hitSound;
-    bool attacking = false;
+    public bool attacking { get; private set; } = false;
     bool readyToAttack = true;
     int attackCount;
 
@@ -141,6 +142,9 @@ public GameObject Bars;
 
         if (InputSystem.actions["Attack"].IsPressed() && readyToAttack)
         {
+
+            if (SwordController.Instance.IsHeld == false) return; // cant swing
+            
             Attack();
             // Swing animation
             PlayerAnimator.SetTrigger("SwingTrigger");
@@ -450,11 +454,17 @@ Bars.SetActive(true);
         UnityEngine.Debug.Log("Attack function completed.");
     }
 
-    void ResetAttack()
+    public void ResetAttack()
     {
         attacking = false;
         readyToAttack = true;
         UnityEngine.Debug.Log("Attack reset");
+    }
+
+    public void ResetAttackAnimation()
+    {
+        PlayerAnimator.Play("Armature|SwordHold");
+        PlayerAnimator.ResetTrigger("Armature|SwordSwing");
     }
 
     void AttackRaycast()
