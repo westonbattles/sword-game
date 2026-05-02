@@ -464,7 +464,7 @@ Bars.SetActive(true);
     public void ResetAttackAnimation()
     {
         PlayerAnimator.Play("Armature|SwordHold");
-        PlayerAnimator.ResetTrigger("Armature|SwordSwing");
+        PlayerAnimator.ResetTrigger("SwingTrigger");
     }
 
     void AttackRaycast()
