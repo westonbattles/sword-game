@@ -15,6 +15,9 @@ namespace Sword
         [SerializeField] GameObject holdPoint;
         [SerializeField] Transform cameraTransform;
 
+        [Header("Animation Parameters")] 
+        [SerializeField] Transform rHandBone;
+
         private Rigidbody _rigidbody;
         private KinematicCharacterMotor _playerMotor;
         private bool _isHeld; // either held or being thrown
@@ -26,6 +29,7 @@ namespace Sword
         private bool _wasGroundedAtThrow;
         
         private bool _throwInput;
+        
         
 
 
@@ -55,6 +59,11 @@ namespace Sword
             if (_isHeld || _rigidbody.isKinematic || _wasGroundedAtThrow) return;
             _rigidbody.AddForce(Vector3.down * Player.Instance.gravity, ForceMode.Acceleration);
         }
+
+        void LateUpdate()
+        {
+            
+        }   
 
         private void Throw()
         {

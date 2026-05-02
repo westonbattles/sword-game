@@ -139,13 +139,20 @@ public GameObject Bars;
 
         _isCrouching = crouchHeld || _isSliding;
 
-        if (InputSystem.actions["Attack"].IsPressed())
+        if (InputSystem.actions["Attack"].IsPressed() && readyToAttack)
         {
             Attack();
             // Swing animation
             PlayerAnimator.SetTrigger("SwingTrigger");
-            
+            StartCoroutine(ClearTriggerNextFrame());
         }
+        
+        IEnumerator ClearTriggerNextFrame()         
+        {                                                                                                           
+            yield return null; // wait one frame
+            playerAnimator.ResetTrigger("SwingTrigger");                                                            
+        }
+        
         if (InputSystem.actions["Reset"].IsPressed())
         {
             Die();
