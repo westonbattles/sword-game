@@ -60,7 +60,7 @@ namespace Sword
                 {
                     Player.Instance.ResetAttack();
                     Player.Instance.ResetAttackAnimation();
-                    StartCoroutine(ThrowNextFrame());
+                    StartCoroutine(SkipFramesAndThrow(1));
                 }
                 else
                 {
@@ -106,10 +106,15 @@ namespace Sword
             _rigidbody.linearVelocity = (throwDir * throwSpeed) + _playerMotor.Velocity;
         }
 
-        private IEnumerator ThrowNextFrame()
+        private IEnumerator SkipFramesAndThrow(int frames = 1)
         {
-            yield return null;
+            for (int i = 0; i < frames; i++)
+            {
+                yield return null;
+            }
+            
             Throw();
+
         }
         
         private void CheckIfShouldDash()

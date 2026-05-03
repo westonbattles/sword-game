@@ -8623,7 +8623,7 @@ MonoBehaviour:
   HealthSystem: {fileID: 0}
   attackDistance: 3
   attackDelay: 0
-  attackSpeed: 0.5
+  attackSpeed: 0.533
   attackDamage: 5
   attackLayer:
     serializedVersion: 2
