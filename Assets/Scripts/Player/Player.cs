@@ -5,13 +5,16 @@ using System.Collections;
 using System.Diagnostics;
 using System.Threading;
 using Sword;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using Debug = UnityEngine.Debug;
 
 [RequireComponent(typeof(KinematicCharacterMotor))]
 public class Player : MonoBehaviour, ICharacterController
 {
+    
     AudioSource audioSource;
    
     [SerializeField] Animator playerAnimator;
@@ -58,7 +61,6 @@ public class Player : MonoBehaviour, ICharacterController
     [Header("Attacking")]
     public float attackDistance = 3f;
     public float attackDelay = 0.4f;
-    public float attackSpeed = .25f;
     public int attackDamage = 5;
     public LayerMask attackLayer;
 
@@ -109,6 +111,10 @@ public GameObject Bars;
     void Update()
     {
         UpdateInput();
+        
+        // reset attack when swing animation stops
+        bool swingAnimationNotPlaying = !PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Armature|SwordSwing");
+        if (attacking && swingAnimationNotPlaying) { ResetAttack(); }
     }
 
     void UpdateInput()
@@ -147,7 +153,8 @@ public GameObject Bars;
             
             Attack();
             // Swing animation
-            PlayerAnimator.SetTrigger("SwingTrigger");
+            
+            PlayerAnimator.SetTrigger("SwingTrigger"); 
             StartCoroutine(ClearTriggerNextFrame());
         }
         
@@ -446,7 +453,7 @@ Bars.SetActive(true);
         readyToAttack = false;
         attacking = true;
 
-        Invoke(nameof(ResetAttack), attackSpeed);
+        // TODO - change
         Invoke(nameof(AttackRaycast), attackDelay);
 
         audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
