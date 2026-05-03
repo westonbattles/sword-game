@@ -6,6 +6,7 @@ public class Actor : MonoBehaviour
     int currentHealth;
     public int maxHealth;
     bool dead = false;
+    public float bodyTimer = 5f;
 
     [Header("Illusory Walls")]
     public bool illusoryWall = false;
@@ -73,6 +74,12 @@ public class Actor : MonoBehaviour
     {
         // TEMPORARY: Destroy upon death
         // Later we want to add animations and likely some splatter effects too to make it feel more satisfying
+        gameObject.GetComponent<GruntController>().DeathHandling();
+        Invoke(nameof(Delete), bodyTimer);
+    }
+
+    void Delete()
+    {
         Destroy(gameObject);
     }
 

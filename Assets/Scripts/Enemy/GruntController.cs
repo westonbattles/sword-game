@@ -1,3 +1,5 @@
+using System.Collections.Specialized;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,8 +16,14 @@ public class GruntController : MonoBehaviour
     public float attackDamage = 20f;
     public float attackRange = 2.5f;
 
-    bool canAttack = true;
+    public float ragdollSpeed = 20f;
 
+    bool canAttack = true;
+    bool dead = false;
+
+    private Rigidbody rb;
+    public Transform pelvis;
+    private Rigidbody[] ragdollRigidbodies;
     private Animator animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,43 +31,50 @@ public class GruntController : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = minDistance;
         healthSystem = GetComponent<HealthSystem>();
+        rb = GetComponent<Rigidbody>();
+
+        ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
         animator = GetComponent<Animator>();
+
+        SetRagdollState(false); // start with ragdoll disabled
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (target != null)
+        if (!dead)
         {
-            distanceToPlayer = Vector3.Distance(transform.position, target.position);
-            // basic player chasing
-            if (IgnorePlayerCheck() == 1)
+            if (target != null)
             {
-                navMeshAgent.SetDestination(target.position);
-            }
-
-            // keeps the grunt facing player if it's within stop distance
-            if (distanceToPlayer < minDistance)
-            {
-                KeepRotation();
-            }
-
-            // attack logic
-            if (distanceToPlayer <= attackRange)
-            {
-                attackTimer += Time.deltaTime;
-                if (attackTimer >= attackInterval)
+                distanceToPlayer = Vector3.Distance(transform.position, target.position);
+                // basic player chasing
+                if (IgnorePlayerCheck() == 1)
                 {
-                    // Perform attack
-                    Attack();
-                    attackTimer = 0f;
+                    navMeshAgent.SetDestination(target.position);
+                }
+
+                // keeps the grunt facing player if it's within stop distance
+                if (distanceToPlayer < minDistance)
+                {
+                    KeepRotation();
+                }
+
+                // attack logic
+                if (distanceToPlayer <= attackRange)
+                {
+                    attackTimer += Time.deltaTime;
+                    if (attackTimer >= attackInterval)
+                    {
+                        // Perform attack
+                        Attack();
+                        attackTimer = 0f;
+                    }
                 }
             }
+
+            // Animation update
+            animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
         }
-
-        // Animation update
-        animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
-
     }
 
     // without this, the grunt wont rotate towards the player if its within the stop distance
@@ -91,5 +106,28 @@ public class GruntController : MonoBehaviour
     {
         animator.ResetTrigger("Attack");
         canAttack = true;
+    }
+    public void SetRagdollState(bool state)
+    {
+        // Toggle animator so it doesn't fight physics
+        if (animator != null) animator.enabled = !state;
+        gameObject.GetComponent<CapsuleCollider>().enabled = !state;
+        navMeshAgent.enabled = !state;
+
+        foreach (Rigidbody rb in ragdollRigidbodies)
+        {
+            // Set kinematics to false when state is true for all rigidbody comps
+            rb.isKinematic = !state;
+        }
+    }
+
+    public void DeathHandling()
+    {
+        animator.SetBool("isDead", true);
+        dead = true;
+        SetRagdollState(true);
+
+        Rigidbody pelvisRb = pelvis.GetComponent<Rigidbody>();
+        pelvisRb.AddForce(-transform.forward * ragdollSpeed, ForceMode.Impulse);
     }
 }
