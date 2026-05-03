@@ -1,34 +1,9 @@
 fileFormatVersion: 2
-guid: 3c97387902d264e5f8a28fbc07eafa2f
+guid: 42e5d1dc14806448a84cb593dc61c0b4
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Sword
-    second: {fileID: 2100000, guid: deeb4ab240b81429996d90c022303daa, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: knight
-    second: {fileID: 2100000, guid: 2a7773f1df42b4887862c80286438ef5, type: 2}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: knight1Color
-    second: {fileID: 2800000, guid: 944e0fd65a1784de2b621019f17b46c1, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: knight1Normal
-    second: {fileID: 2800000, guid: 15c6e4492eb5b431894a109332ed0bd2, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: knight1Specular
-    second: {fileID: 2800000, guid: a0765af61d0014706b145dd8f77726d1, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -117,7 +92,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: chest
+    rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -125,7 +100,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0

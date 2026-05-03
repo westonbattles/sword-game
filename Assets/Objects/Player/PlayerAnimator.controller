@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -5162048957084575788, guid: 3c97387902d264e5f8a28fbc07eafa2f, type: 3}
+  m_Motion: {fileID: -5162048957084575788, guid: 42e5d1dc14806448a84cb593dc61c0b4, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -44,9 +44,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0
+  m_ExitTime: 0.00000010571665
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -135,7 +135,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Armature|SwordSwing
-  m_Speed: 1.2
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2618492806572289355}
@@ -148,7 +148,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 120608704589439447, guid: 3c97387902d264e5f8a28fbc07eafa2f, type: 3}
+  m_Motion: {fileID: 120608704589439447, guid: 42e5d1dc14806448a84cb593dc61c0b4, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
