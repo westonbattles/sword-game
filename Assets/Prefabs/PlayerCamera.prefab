@@ -662,6 +662,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 42e5d1dc14806448a84cb593dc61c0b4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8629326946861435482}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 42e5d1dc14806448a84cb593dc61c0b4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3889126679205904130}
   m_SourcePrefab: {fileID: 100100000, guid: 42e5d1dc14806448a84cb593dc61c0b4, type: 3}
 --- !u!4 &4987933858082993261 stripped
 Transform:
@@ -695,6 +698,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3889126679205904130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5843346424977097280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89ce15269ffb4c1db746caf062e4155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sword.SwordAnimationEvents
 --- !u!4 &6511198121714735354 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 42e5d1dc14806448a84cb593dc61c0b4, type: 3}

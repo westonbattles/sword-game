@@ -466,7 +466,6 @@ public class Player : MonoBehaviour, ICharacterController
         attacking = false;
         readyToAttack = true;
         SwordController.Instance.StopSwingHitbox();
-        UnityEngine.Debug.Log("Attack reset");
     }
 
     public void ResetAttackAnimation()
