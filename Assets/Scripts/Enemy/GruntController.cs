@@ -12,7 +12,7 @@ public class GruntController : MonoBehaviour
     public float maxDistance = 15f;
     private float distanceToPlayer;
     public float attackInterval = 1f;
-    private float attackTimer = 0f;
+    private float attackTimer = 1f;
     public float attackDamage = 20f;
     public float attackRange = 2.5f;
 

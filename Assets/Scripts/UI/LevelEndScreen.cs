@@ -34,12 +34,14 @@ public class LevelEndScreen : MonoBehaviour
     void retryLevel()
     {
         UnityEngine.Debug.Log("Retry Pressed");
+        Player.GetComponent<Player>().Unsuspend();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void nextLevel()
     {
         UnityEngine.Debug.Log("Next Level Pressed");
+        Player.GetComponent<Player>().Unsuspend();
         SceneManager.LoadScene(nextLevelName);
     }
 

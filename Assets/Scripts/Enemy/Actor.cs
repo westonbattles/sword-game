@@ -49,7 +49,7 @@ public class Actor : MonoBehaviour
 
             if (fadeTimer >= 1f)
             {
-                Death();
+                Delete();
             }
         }
         else if (dead)
