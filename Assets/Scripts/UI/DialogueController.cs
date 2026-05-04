@@ -60,6 +60,7 @@ public class DialogueController : MonoBehaviour
                     // Advance to next or close
                     dialogueActive = false;
                     DialogueAdvance.text = "Press space to skip.";
+                    gameObject.GetComponent<Player>().Unsuspend();
                 }
             }
         }
@@ -86,6 +87,8 @@ public class DialogueController : MonoBehaviour
         {
             DialogueTrigger trigger = other.GetComponent<DialogueTrigger>();
             StartDialogue(trigger);
+            gameObject.GetComponent<Player>().Suspend();
+            Time.timeScale = 0f;
         }
     }
 
@@ -113,7 +116,7 @@ public class DialogueController : MonoBehaviour
         {
             currentText += word + " ";
             DialogueBox.text = currentText;
-            yield return new WaitForSeconds(wordDisplayInterval);
+            yield return new WaitForSecondsRealtime(wordDisplayInterval);
         }
         textDone = true;
     }

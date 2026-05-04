@@ -92,7 +92,7 @@ public class Player : MonoBehaviour, ICharacterController
     bool _isJumpingThisFrame;
     float _jumpBufferCounter;
     [Header("Map Triggers")]
-public GameObject Bars;
+    public GameObject Bars;
 
     void Awake()
     {
@@ -440,10 +440,10 @@ public GameObject Bars;
         {
             HealthSystem.Instance.RestoreMana(HealthSystem.Instance.maxManaPoint);
         }
-if (other.gameObject.CompareTag("ShowBars"))
-{
-Bars.SetActive(true);
-}
+        if (other.gameObject.CompareTag("ShowBars"))
+        {
+        Bars.SetActive(true);
+        }
     }
 
     public void Attack()
@@ -520,11 +520,13 @@ Bars.SetActive(true);
         // Nullify inputs and unlock mouse for menu pressing
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        Time.timeScale = 0f;
     }
 
     public void Unsuspend()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Time.timeScale = 1f;
     }
 }

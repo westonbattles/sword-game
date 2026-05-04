@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1458871503564034819}
   - component: {fileID: 8041964598885881256}
   - component: {fileID: 3431292253711757092}
+  - component: {fileID: 8716100017438101727}
+  - component: {fileID: 7606337073913741996}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -135,7 +137,6 @@ MonoBehaviour:
   HealthSystem: {fileID: 0}
   attackDistance: 3
   attackDelay: 0
-  attackSpeed: 0.533
   attackDamage: 5
   attackLayer:
     serializedVersion: 2
@@ -242,6 +243,47 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!54 &8716100017438101727
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880460084624742626}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &7606337073913741996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880460084624742626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16bc6498d375ad44a853142eb0e85c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueController
+  arrowFlashDuration: 1
+  wordDisplayInterval: 0.3
 --- !u!1 &5065229825020945284
 GameObject:
   m_ObjectHideFlags: 0
