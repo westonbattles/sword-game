@@ -74,6 +74,7 @@ public class Player : MonoBehaviour, ICharacterController
     [Header("Debug")]
     public bool depleteStamina = true;
     public bool depleteHealth = true;
+    public bool drawDebugTargetGui = true;
     
     Vector3 _dashVelocity;
     bool _shouldDash;
@@ -405,7 +406,7 @@ public class Player : MonoBehaviour, ICharacterController
 
     void OnGUI()
     {
-        _dashAttack?.DrawDebugGUI();
+        if (drawDebugTargetGui) _dashAttack?.DrawDebugGUI();
     }
     public void OnDiscreteCollisionDetected(Collider hitCollider) { }
     public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport) { }
