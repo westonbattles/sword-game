@@ -1,46 +1,78 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class DialogueController : MonoBehaviour
 {
     // State variables
-    private bool dialogueActive = false;
-    private bool arrowActive = false;
+    private bool dialogueActive;
+    private bool arrowActive;
+    private bool textDone;
+    private bool arrowFlashStarted;
+    private Coroutine currentTextCoroutine;
     // Dialogue objects
+    private GameObject Dialogue;
     private GameObject DialogueBase;
 
     private GameObject DialogueArrow;
     private TextMeshProUGUI DialogueBox;
     private TextMeshProUGUI DialogueAdvance;
+    // Arrow flash variables
+    public float arrowFlashDuration = 1f;
+    public float wordDisplayInterval = 0.3f;
+    private string currentDialogueText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Dialogue = GameObject.Find("Dialogue");
         DialogueBase = GameObject.Find("DialogueBase");
         DialogueArrow = GameObject.Find("DialogueArrow");
         DialogueBox = GameObject.Find("DialogueBox").GetComponent<TextMeshProUGUI>();
         DialogueAdvance = GameObject.Find("DialogueAdvance").GetComponent<TextMeshProUGUI>();
-
-        DialogueBase.SetActive(false);
+        dialogueActive = false;
+        arrowActive = false;
+        textDone = false;
+        arrowFlashStarted = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        Dialogue.SetActive(dialogueActive);
+
         if (dialogueActive)
         {
-            DialogueBase.SetActive(true);
-            DialogueBox.text = "Simply running a test right now";
-        }
-        else
-        {
-            DialogueBase.SetActive(false);
+            if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                if (!textDone)
+                {
+                    // Skip to full text
+                    if (currentTextCoroutine != null)
+                    {
+                        StopCoroutine(currentTextCoroutine);
+                    }
+                    DialogueBox.text = currentDialogueText;
+                    textDone = true;
+                }
+                else
+                {
+                    // Advance to next or close
+                    dialogueActive = false;
+                    DialogueAdvance.text = "Press space to skip.";
+                }
+            }
         }
 
-        if (arrowActive)
+        if (textDone)
         {
-            ArrowFlash();
+            DialogueAdvance.text = "Press space to advance.";
+            if (!arrowFlashStarted)
+            {
+                ArrowFlash();
+            }
+
+            DialogueArrow.SetActive(arrowActive);
         }
         else
         {
@@ -48,16 +80,50 @@ public class DialogueController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("TextTrigger"))
+        {
+            DialogueTrigger trigger = other.GetComponent<DialogueTrigger>();
+            StartDialogue(trigger);
+        }
+    }
+
+    void StartDialogue(DialogueTrigger trigger)
+    {
+        dialogueActive = true;
+        textDone = false;
+        arrowFlashStarted = false;
+        currentDialogueText = trigger.dialogueText;
+        DialogueBox.text = "";
+        currentTextCoroutine = StartCoroutine(DisplayTextWordByWord(currentDialogueText));
+    }
     void ArrowFlash()
     {
-        DialogueArrow.SetActive(true);
+        arrowFlashStarted = true;
+        arrowActive = true;
         StartCoroutine(ArrowFlashCoroutine());
+    }
+
+    private IEnumerator DisplayTextWordByWord(string text)
+    {
+        string[] words = text.Split(' ');
+        string currentText = "";
+        foreach (string word in words)
+        {
+            currentText += word + " ";
+            DialogueBox.text = currentText;
+            yield return new WaitForSeconds(wordDisplayInterval);
+        }
+        textDone = true;
     }
 
     private IEnumerator ArrowFlashCoroutine()
     {
-        arrowActive = true;
-        yield return new WaitForSeconds(0.5f);
-        arrowActive = false;
+        while (true)
+        {
+            yield return new WaitForSeconds(arrowFlashDuration);
+            arrowActive = !arrowActive;
+        }
     }
 }

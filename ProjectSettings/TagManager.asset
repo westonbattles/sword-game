@@ -11,6 +11,7 @@ TagManager:
   - ShowBars
   - Bars
   - Enemy
+  - TextTrigger
   layers:
   - Default
   - TransparentFX
