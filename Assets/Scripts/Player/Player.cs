@@ -92,6 +92,7 @@ public class Player : MonoBehaviour, ICharacterController
     Vector2 _moveInput;
     bool _jumpInput;
     bool _attackInput;
+    bool _dashAttackInput;
     bool _isJumpingThisFrame;
     float _jumpBufferCounter;
     [Header("Map Triggers")]
@@ -129,6 +130,7 @@ public class Player : MonoBehaviour, ICharacterController
         _moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
         _jumpInput = autoBhop ? InputSystem.actions["Jump"].IsPressed() : InputSystem.actions["Jump"].WasPressedThisFrame();
         _attackInput = InputSystem.actions["Attack"].WasPressedThisFrame();
+        _dashAttackInput = InputSystem.actions["Dash Attack"].WasPressedThisFrame();
         _inputRot = mainCamera.transform.rotation;
 
         if (_jumpInput)
@@ -172,11 +174,15 @@ public class Player : MonoBehaviour, ICharacterController
 
     void HandleAttack()
     {
-        if (!_attackInput || !readyToAttack) return;
+        if ((!_attackInput && !_dashAttackInput)|| !readyToAttack) return;
         if (SwordController.Instance.IsHeld == false) return; // cant swing / attack
         
-        bool dashAttack = _dashAttack.TryDashAttack();
-        if (!dashAttack)
+        //bool dashAttack = _dashAttack.TryDashAttack();
+        if (_dashAttackInput)
+        {
+            _dashAttack.TryDashAttack();
+        }
+        if (_attackInput)
         {
             Attack();
             PlayerAnimator.SetTrigger("SwingTrigger"); 
