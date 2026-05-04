@@ -135,16 +135,20 @@ MonoBehaviour:
   slideFriction: 5
   dashSpeed: 30
   HealthSystem: {fileID: 0}
-  attackDistance: 3
-  attackDelay: 0
-  attackDamage: 5
-  attackLayer:
+  enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  hitEffect: {fileID: 0}
   swordSwing: {fileID: 8300000, guid: c01a67049a357e744a4687804a4cdc62, type: 3}
   hitSound: {fileID: 8300000, guid: 07fb184b2c30b3d46b63578c8e6d08a9, type: 3}
-  depleteStamina: 0
+  regularAttackRange: 2
+  dashAttackDuration: 0.55
+  dashAttackPlowDuration: 0.5
+  dashAttackScreenRadius: 0.12
+  dashAttackMomentumScale: 0.2
+  dashAttackMaxMomentumBonus: 4
+  dashAttackDamage: 5
+  depleteStamina: 1
+  depleteHealth: 1
   Bars: {fileID: 0}
 --- !u!82 &3431292253711757092
 AudioSource:
