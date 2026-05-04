@@ -20,7 +20,7 @@ public class DialogueController : MonoBehaviour
     private TextMeshProUGUI DialogueAdvance;
     // Arrow flash variables
     public float arrowFlashDuration = 0.5f;
-    public float wordDisplayInterval = 0.1f;
+    public float wordDisplayInterval = 0.15f;
     private string currentDialogueText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -68,12 +68,14 @@ public class DialogueController : MonoBehaviour
         if (textDone)
         {
             DialogueAdvance.text = "Press space to advance.";
-            if (!arrowFlashStarted)
-            {
-                ArrowFlash();
-            }
+            // TODO: Fix arrow flash speed increasing with each dialogue trigger
+            // if (!arrowFlashStarted)
+            // {
+            //     ArrowFlash();
+            // }
 
-            DialogueArrow.SetActive(arrowActive);
+            // DialogueArrow.SetActive(arrowActive);
+            DialogueArrow.SetActive(true);
         }
         else
         {
@@ -126,7 +128,7 @@ public class DialogueController : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(arrowFlashDuration);
+            yield return new WaitForSecondsRealtime(arrowFlashDuration);
             arrowActive = !arrowActive;
         }
     }
