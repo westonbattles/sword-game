@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using KinematicCharacterController;
@@ -7,35 +8,39 @@ using KinematicCharacterController;
 namespace Sword
 {
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(BoxCollider))]
     public class SwordController : MonoBehaviour
     {
-        
         public static SwordController Instance { get; private set; }
-        
-        
-        [SerializeField] float throwSpeed = 10f;
-        [SerializeField] float maxThrowDistance = 5f;
+
+        [Header("References")]
         [SerializeField] GameObject holdPoint;
         [SerializeField] Transform cameraTransform;
 
-        [Header("Animation Parameters")] 
-        [SerializeField] Transform rHandBone;
+        [Header("Throw")]
+        [SerializeField] float throwSpeed = 10f;
+        [SerializeField] float maxThrowDistance = 5f;
+
+        [Header("Swing")]
+        [SerializeField] LayerMask enemyLayer;
+        [SerializeField] int swingDamage = 5;
 
         public bool IsHeld { get; private set; } // either held or being thrown
-        
+        public BoxCollider BoxCollider { get; private set; }
+
         private Rigidbody _rigidbody;
         private KinematicCharacterMotor _playerMotor;
+
+        private readonly HashSet<Actor> _hitActorsThisSwing = new();
+
+        private bool _throwInput;
         private bool _shouldTriggerPlayerDash;
+        private bool _wasGroundedAtThrow;
+
         private float _maxThrowTime;
         private float _throwTime;
-        private Vector3 _throwDirection;
-        private Vector3 _dashDirection;
-        private bool _wasGroundedAtThrow;
-        
-        private bool _throwInput;
-        
-        
 
+        private Vector3 _dashDirection;
 
         private void Start()
         {
@@ -46,9 +51,13 @@ namespace Sword
         private void Awake()
         {
             Instance = this;
-            _rigidbody = GetComponent<Rigidbody>();
             IsHeld = true;
+            BoxCollider = GetComponent<BoxCollider>();
+            _rigidbody = GetComponent<Rigidbody>();
             _shouldTriggerPlayerDash = false;
+            
+            BoxCollider.isTrigger = true;
+            BoxCollider.enabled = false;
         }
 
         private void Update()
@@ -77,6 +86,31 @@ namespace Sword
             _rigidbody.AddForce(Vector3.down * Player.Instance.gravity, ForceMode.Acceleration);
         }
 
+        public void StartSwingHitbox()
+        {
+            _hitActorsThisSwing.Clear();
+            BoxCollider.enabled = true;
+        }
+
+        public void StopSwingHitbox()
+        {
+            BoxCollider.enabled = false;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            // TODO: Check enemyLayer, get the Actor, dedupe with _hitActorsThisSwing, then apply swing behavior.
+            if (!IsInLayerMask(other.gameObject.layer, enemyLayer)) return;
+            
+            Actor hitActor = other.GetComponentInParent<Actor>();
+            if (hitActor == null) return;
+
+            if (!_hitActorsThisSwing.Add(hitActor)) return;
+            Debug.Log($"Swing hit: {hitActor.name}");
+            hitActor.TakeDamage(swingDamage);
+            Player.Instance.PlaySwordHitSound();
+        }
+
         void LateUpdate()
         {
             
@@ -92,10 +126,9 @@ namespace Sword
             
             Vector3 aimPoint = cameraTransform.position + cameraTransform.forward * maxThrowDistance;
             Vector3 throwDir = (aimPoint - transform.position).normalized;
-            _throwDirection = throwDir;
             _dashDirection = cameraTransform.forward;
             
-            // TODO - smoother rotation
+            // TODO - smoother rotation or like use an animation
            // transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(throwDir), 360) * Quaternion.Euler(90, 0, 0);;
             
             
@@ -154,6 +187,12 @@ namespace Sword
         private float getDistFromCamera()
         {
             return (transform.position - Player.Instance.mainCamera.transform.position).magnitude;
+        }
+
+        /// Return whether layer is included in layerMask.
+        private static bool IsInLayerMask(int layer, LayerMask layerMask)
+        {
+            return (layerMask.value & (1 << layer)) != 0;
         }
     }
 }

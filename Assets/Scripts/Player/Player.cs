@@ -59,17 +59,10 @@ public class Player : MonoBehaviour, ICharacterController
 
 
     [Header("Attacking")]
-    public float attackDistance = 3f;
-    public float attackDelay = 0.4f;
-    public int attackDamage = 5;
-    public LayerMask attackLayer;
-
-    public GameObject hitEffect;
     public AudioClip swordSwing;
     public AudioClip hitSound;
     public bool attacking { get; private set; } = false;
     bool readyToAttack = true;
-    int attackCount;
 
     [Header("Debug")]
     [SerializeField] private bool depleteStamina = true;
@@ -453,18 +446,26 @@ public class Player : MonoBehaviour, ICharacterController
         readyToAttack = false;
         attacking = true;
 
-        // TODO - change
-        Invoke(nameof(AttackRaycast), attackDelay);
+        SwordController.Instance.StartSwingHitbox();
 
         audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
         audioSource.PlayOneShot(swordSwing);
-        UnityEngine.Debug.Log("Attack function completed.");
+        Debug.Log("Attack function completed.");
+    }
+
+    public void PlaySwordHitSound()
+    {
+        if (hitSound == null) return;
+        
+        audioSource.pitch = 1f;
+        audioSource.PlayOneShot(hitSound);
     }
 
     public void ResetAttack()
     {
         attacking = false;
         readyToAttack = true;
+        SwordController.Instance.StopSwingHitbox();
         UnityEngine.Debug.Log("Attack reset");
     }
 
@@ -472,33 +473,6 @@ public class Player : MonoBehaviour, ICharacterController
     {
         PlayerAnimator.Play("Armature|SwordHold");
         PlayerAnimator.ResetTrigger("SwingTrigger");
-    }
-
-    void AttackRaycast()
-    {
-        UnityEngine.Debug.Log("AttackRaycast called");
-        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit, attackDistance, attackLayer))
-        {
-            HitTarget(hit.point);
-
-            if (hit.transform.TryGetComponent<Actor>(out Actor T))
-            {
-                UnityEngine.Debug.Log("Attempting to deal damage via player script");
-                T.TakeDamage(attackDamage);
-            }
-        }
-    }
-
-    void HitTarget(Vector3 pos)
-    {
-        UnityEngine.Debug.Log("HitTarget called");
-        audioSource.pitch = 1;
-        audioSource.PlayOneShot(hitSound);
-
-        GameObject GO = Instantiate(hitEffect, pos, Quaternion.identity);
-        Destroy(GO, 20);
-
-       
     }
 
     public void Die()
