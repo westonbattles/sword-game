@@ -12,6 +12,7 @@ public class GruntController : MonoBehaviour
     public float maxDistance = 15f;
     private float distanceToPlayer;
     public float attackInterval = 1f;
+    public float attackDelay = 0f;
     private float attackTimer = 1f;
     public float attackDamage = 20f;
     public float attackRange = 2.5f;
@@ -95,10 +96,17 @@ public class GruntController : MonoBehaviour
     {
         if (canAttack && distanceToPlayer <= attackRange)
         {
-            HealthSystem.Instance.TakeDamage(attackDamage);
             canAttack = false;
             animator.SetTrigger("Attack");
             Invoke(nameof(RefreshAttack), attackInterval);
+        }
+    }
+
+    public void DamagePlayer()
+    {
+        if (distanceToPlayer <= attackRange)
+        {
+            HealthSystem.Instance.TakeDamage(attackDamage);
         }
     }
 
