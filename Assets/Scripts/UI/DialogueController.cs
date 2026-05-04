@@ -19,8 +19,8 @@ public class DialogueController : MonoBehaviour
     private TextMeshProUGUI DialogueBox;
     private TextMeshProUGUI DialogueAdvance;
     // Arrow flash variables
-    public float arrowFlashDuration = 1f;
-    public float wordDisplayInterval = 0.3f;
+    public float arrowFlashDuration = 0.5f;
+    public float wordDisplayInterval = 0.1f;
     private string currentDialogueText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -43,6 +43,7 @@ public class DialogueController : MonoBehaviour
 
         if (dialogueActive)
         {
+            DialogueAdvance.text = "Press space to skip.";
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 if (!textDone)
@@ -59,7 +60,6 @@ public class DialogueController : MonoBehaviour
                 {
                     // Advance to next or close
                     dialogueActive = false;
-                    DialogueAdvance.text = "Press space to skip.";
                     gameObject.GetComponent<Player>().Unsuspend();
                 }
             }
@@ -89,6 +89,7 @@ public class DialogueController : MonoBehaviour
             StartDialogue(trigger);
             gameObject.GetComponent<Player>().Suspend();
             Time.timeScale = 0f;
+            other.gameObject.SetActive(false);
         }
     }
 
