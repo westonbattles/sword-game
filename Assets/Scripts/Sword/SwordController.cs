@@ -99,11 +99,9 @@ namespace Sword
 
         private void OnTriggerEnter(Collider other)
         {
-            // TODO: Check enemyLayer, get the Actor, dedupe with _hitActorsThisSwing, then apply swing behavior.
-            if (!IsInLayerMask(other.gameObject.layer, enemyLayer)) return;
-            
             Actor hitActor = other.GetComponentInParent<Actor>();
             if (hitActor == null) return;
+            if (!IsInLayerMask(hitActor.gameObject.layer, enemyLayer)) return;
 
             if (!_hitActorsThisSwing.Add(hitActor)) return;
             Debug.Log($"Swing hit: {hitActor.name}");

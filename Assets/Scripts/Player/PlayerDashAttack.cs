@@ -26,20 +26,28 @@ public class PlayerDashAttack
         }
     }
 
-    public void TryDashAttack()
+    public bool TryDashAttack()
     {
-        if (_player == null) return;
-        if (_dashAttackTimer > 0f) return;
+        if (_player == null) return false;
+        if (_dashAttackTimer > 0f) return false;
 
         Vector3 direction = _player.mainCamera.transform.forward;
         float finalDashAttackRange = GetDashAttackRange(_player.Motor.Velocity, direction);
 
-        if (TryGetBestDashAttackTarget(finalDashAttackRange, out Actor enemy))
-        {
-            Vector3 dashDirection = (enemy.transform.position - _player.transform.position).normalized;
-            _player.Dash(dashDirection, _player.dashSpeed, true);
-            _dashAttackTimer = _player.dashAttackDuration;
-        }
+        if (!TryGetBestDashAttackTarget(finalDashAttackRange, out Actor enemy)) return false;
+        
+        float distanceToEnemy = Vector3.Distance(
+            _player.mainCamera.transform.position,
+            GetActorTargetPoint(enemy)
+        );
+
+        if (distanceToEnemy <= _player.regularAttackRange) return false;
+            
+        Vector3 dashDirection = (enemy.transform.position - _player.transform.position).normalized;
+        _player.Dash(dashDirection, _player.dashSpeed, true);
+        _dashAttackTimer = _player.dashAttackDuration;
+            
+        return true;
     }
 
     public void BeginDashAttack()
@@ -102,7 +110,7 @@ public class PlayerDashAttack
             if (!TryGetActorScreenDistance(enemy, screenCenter, screenRadius, out float screenDistance)) continue;
 
             Vector3 targetPoint = GetActorTargetPoint(enemy);
-            float worldDistance = Vector3.Distance(_player.transform.position, targetPoint);
+            float worldDistance = Vector3.Distance(_player.mainCamera.transform.position, targetPoint);
             if (worldDistance > maxWorldRange) continue;
 
             if (screenDistance < bestScreenDistance)
@@ -212,7 +220,7 @@ public class PlayerDashAttack
     {
         if (_player == null) return;
 
-        DrawScreenSpaceTargetRadius();
+        //DrawScreenSpaceTargetRadius();
         DrawSelectedDashTarget();
     }
 

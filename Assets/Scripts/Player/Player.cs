@@ -114,12 +114,13 @@ public class Player : MonoBehaviour, ICharacterController
     void Update()
     {
         UpdateInput();
-        HandleAttack();
-        _dashAttack.Tick();
         
         // reset attack when swing animation stops
         bool swingAnimationNotPlaying = !PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Armature|SwordSwing");
         if (attacking && swingAnimationNotPlaying) { ResetAttack(); }
+
+        HandleAttack();
+        _dashAttack.Tick();
     }
 
     void UpdateInput()
@@ -171,13 +172,15 @@ public class Player : MonoBehaviour, ICharacterController
     void HandleAttack()
     {
         if (!_attackInput || !readyToAttack) return;
-        if (SwordController.Instance.IsHeld == false) return; // cant swing
-
-        _dashAttack.TryDashAttack();
+        if (SwordController.Instance.IsHeld == false) return; // cant swing / attack
         
-        //Attack();
-        //PlayerAnimator.SetTrigger("SwingTrigger"); 
-        //StartCoroutine(ClearTriggerNextFrame());
+        bool dashAttack = _dashAttack.TryDashAttack();
+        if (!dashAttack)
+        {
+            Attack();
+            PlayerAnimator.SetTrigger("SwingTrigger"); 
+            StartCoroutine(ClearTriggerNextFrame());
+        }
     }
 
     IEnumerator ClearTriggerNextFrame()         
