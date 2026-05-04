@@ -31591,59 +31591,43 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 386974659213105561, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
-      propertyPath: m_ClearFlags
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 386974659213105561, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 386974659213105561, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 386974659213105561, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1139738796250124602, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 2086272986178207317, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3.59
       objectReference: {fileID: 0}
-    - target: {fileID: 1139738796250124602, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 2086272986178207317, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1.83
       objectReference: {fileID: 0}
-    - target: {fileID: 1139738796250124602, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 2086272986178207317, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 8.96
       objectReference: {fileID: 0}
-    - target: {fileID: 1139738796250124602, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 2086272986178207317, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1139738796250124602, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 2086272986178207317, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 1139738796250124602, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 2086272986178207317, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 1139738796250124602, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 2086272986178207317, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 1139738796250124602, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 2086272986178207317, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1139738796250124602, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 2086272986178207317, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1139738796250124602, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 2086272986178207317, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
@@ -31651,29 +31635,9 @@ PrefabInstance:
       propertyPath: cameraTarget
       value: 
       objectReference: {fileID: 1781111994}
-    - target: {fileID: 3237947620246379357, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
+    - target: {fileID: 6295940020857556587, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
       propertyPath: m_Name
       value: PlayerCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 6306886423896647639, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
-      propertyPath: cameraTarget
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865556983643753605, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
-      propertyPath: m_ClearFlags
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865556983643753605, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865556983643753605, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7865556983643753605, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
