@@ -1,11 +1,7 @@
 ﻿using KinematicCharacterController;
 using System;
-using System.Collections.Specialized;
 using System.Collections;
-using System.Diagnostics;
-using System.Threading;
 using Sword;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
@@ -58,18 +54,30 @@ public class Player : MonoBehaviour, ICharacterController
     public event Action OnLand;
 
 
-    [Header("Attacking")]
+    [Header("Attacking")] 
+    public LayerMask enemyLayerMask;
     public AudioClip swordSwing;
     public AudioClip hitSound;
     public bool attacking { get; private set; } = false;
     bool readyToAttack = true;
+    
+    [Header("Dash Attack")]
+    public float regularAttackRange = 2f;
+    public float dashAttackDuration = 0.25f;
+    public float dashAttackPlowDuration = 0.5f;
+    public float dashAttackScreenRadius = 0.12f;
+    public float dashAttackMomentumScale = 0.2f;
+    public float dashAttackMaxMomentumBonus = 4f;
+    public int dashAttackDamage = 5;
+    
 
     [Header("Debug")]
-    [SerializeField] private bool depleteStamina = true;
-   
-   
+    public bool depleteStamina = true;
+    public bool depleteHealth = true;
+    
     Vector3 _dashVelocity;
     bool _shouldDash;
+    PlayerDashAttack _dashAttack;
 
     public static Player Instance { get; private set; }
     
@@ -82,6 +90,7 @@ public class Player : MonoBehaviour, ICharacterController
     Quaternion _inputRot;
     Vector2 _moveInput;
     bool _jumpInput;
+    bool _attackInput;
     bool _isJumpingThisFrame;
     float _jumpBufferCounter;
     [Header("Map Triggers")]
@@ -91,6 +100,7 @@ public class Player : MonoBehaviour, ICharacterController
     {
         Instance = this;
         _motor = GetComponent<KinematicCharacterMotor>();
+        _dashAttack = new PlayerDashAttack(this);
         if (autoBhop) jumpBufferTime = 0.01f; // jump buffer with auto bhop feels bad
         audioSource = GetComponent<AudioSource>();
     }
@@ -104,6 +114,8 @@ public class Player : MonoBehaviour, ICharacterController
     void Update()
     {
         UpdateInput();
+        HandleAttack();
+        _dashAttack.Tick();
         
         // reset attack when swing animation stops
         bool swingAnimationNotPlaying = !PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Armature|SwordSwing");
@@ -114,6 +126,7 @@ public class Player : MonoBehaviour, ICharacterController
     {
         _moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
         _jumpInput = autoBhop ? InputSystem.actions["Jump"].IsPressed() : InputSystem.actions["Jump"].WasPressedThisFrame();
+        _attackInput = InputSystem.actions["Attack"].WasPressedThisFrame();
         _inputRot = mainCamera.transform.rotation;
 
         if (_jumpInput)
@@ -139,24 +152,6 @@ public class Player : MonoBehaviour, ICharacterController
 
         _isCrouching = crouchHeld || _isSliding;
 
-        if (InputSystem.actions["Attack"].IsPressed() && readyToAttack)
-        {
-
-            if (SwordController.Instance.IsHeld == false) return; // cant swing
-            
-            Attack();
-            // Swing animation
-            
-            PlayerAnimator.SetTrigger("SwingTrigger"); 
-            StartCoroutine(ClearTriggerNextFrame());
-        }
-        
-        IEnumerator ClearTriggerNextFrame()         
-        {                                                                                                           
-            yield return null; // wait one frame
-            playerAnimator.ResetTrigger("SwingTrigger");                                                            
-        }
-        
         if (InputSystem.actions["Reset"].IsPressed())
         {
             Die();
@@ -171,6 +166,24 @@ public class Player : MonoBehaviour, ICharacterController
         {
             TryStandUp();
         }
+    }
+
+    void HandleAttack()
+    {
+        if (!_attackInput || !readyToAttack) return;
+        if (SwordController.Instance.IsHeld == false) return; // cant swing
+
+        _dashAttack.TryDashAttack();
+        
+        //Attack();
+        //PlayerAnimator.SetTrigger("SwingTrigger"); 
+        //StartCoroutine(ClearTriggerNextFrame());
+    }
+
+    IEnumerator ClearTriggerNextFrame()         
+    {                                                                                                           
+        yield return null; // wait one frame
+        playerAnimator.ResetTrigger("SwingTrigger");                                                            
     }
 
     //stands unless there is a ceiling
@@ -206,56 +219,21 @@ public class Player : MonoBehaviour, ICharacterController
     }
 
     /// Performs dash in a given direction with given speed
-    public void Dash(Vector3 directionNormalized, float speed)
+    public void Dash(Vector3 directionNormalized, float speed, bool dashAttack)
     {
         _dashVelocity = directionNormalized * speed;
         _shouldDash = true;
+        
+        // if the attack is a dash attack, enable enemy plowing
+        if (dashAttack)
+        {
+            _dashAttack.BeginDashAttack();
+        }
+        
         _motor.ForceUnground(.25f); // lets you dash along objects without insta stopping you
         if (depleteStamina) HealthSystem.Instance.UseMana(20); // consumes 20 mana on dash
     }
-
-    /*
-    void VelocitySet(ref Vector3 currentVelocity, float dt)
-    {
-        if (_shouldDash)
-        {
-            currentVelocity = _dashVelocity;
-            _shouldDash = false;
-            return;  // skip normal movement for this one frame
-        }
-
-        // inputdir is just which global direction the player is trying to move in
-        Vector3 inputDir = new Vector3(_moveInput.x, 0f, _moveInput.y);
-        inputDir = Quaternion.Euler(0, _inputRot.eulerAngles.y, 0) * inputDir;
-        inputDir = Vector3.ClampMagnitude(inputDir, 1f);
-
-        if (_motor.GroundingStatus.IsStableOnGround)
-        {
-            bool hasSupportBelow = _motor.GroundingStatus.GroundNormal != Vector3.zero;
-
-            if (hasSupportBelow)
-            {
-                currentVelocity = _motor.GetDirectionTangentToSurface(currentVelocity, _motor.GroundingStatus.GroundNormal) * currentVelocity.magnitude;
-            }
-
-            Vector3 reorientedInput = _motor.GetDirectionTangentToSurface(inputDir, _motor.GroundingStatus.GroundNormal);
-            Vector2 target = new Vector2(reorientedInput.x, reorientedInput.z);
-            Vector2 horivel = new Vector2(currentVelocity.x, currentVelocity.z);
-            if (_jumpBufferCounter > 0f)
-            {
-                OnJump?.Invoke();
-                _motor.ForceUnground(0.2f);
-                _jumpBufferCounter = 0f;
-                currentVelocity = currentVelocity - Vector3.Project(currentVelocity, _motor.CharacterUp);
-                currentVelocity += _motor.CharacterUp * jumpHeight;
-                horivel = MoveAir(target, horivel, dt);
-        }
-        else
-        {
-            horivel = MoveGround(target, horivel, dt);
-        }
-    }
-    */
+    
     void VelocitySet(ref Vector3 currentVelocity, float dt)
     {
         if (_shouldDash)
@@ -417,7 +395,15 @@ public class Player : MonoBehaviour, ICharacterController
             _isJumpingThisFrame = true;
         }
     }
-    public bool IsColliderValidForCollisions(Collider coll) { return true; }
+    public bool IsColliderValidForCollisions(Collider coll)
+    {
+        return _dashAttack == null || _dashAttack.IsColliderValidForCollisions(coll);
+    }
+
+    void OnGUI()
+    {
+        _dashAttack?.DrawDebugGUI();
+    }
     public void OnDiscreteCollisionDetected(Collider hitCollider) { }
     public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport) { }
     public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport) { }
@@ -503,3 +489,4 @@ public class Player : MonoBehaviour, ICharacterController
         Time.timeScale = 1f;
     }
 }
+

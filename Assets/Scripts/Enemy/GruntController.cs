@@ -130,4 +130,23 @@ public class GruntController : MonoBehaviour
         Rigidbody pelvisRb = pelvis.GetComponent<Rigidbody>();
         pelvisRb.AddForce(-transform.forward * ragdollSpeed, ForceMode.Impulse);
     }
+
+    public void DeathHandling(Vector3 ragdollDirection)
+    {
+        animator.SetBool("isDead", true);
+        dead = true;
+        SetRagdollState(true);
+
+        Vector3 forceDirection = ragdollDirection.sqrMagnitude > 0.001f
+            ? ragdollDirection.normalized
+            : transform.forward;
+
+        foreach (Rigidbody rb in ragdollRigidbodies)
+        {
+            rb.linearVelocity = forceDirection * ragdollSpeed;
+        }
+
+        Rigidbody pelvisRb = pelvis.GetComponent<Rigidbody>();
+        pelvisRb.AddForce(forceDirection * ragdollSpeed, ForceMode.VelocityChange);
+    }
 }

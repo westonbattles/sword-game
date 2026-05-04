@@ -30083,9 +30083,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1081992588}
     - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: depleteHealth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
       propertyPath: playerAnimator
       value: 
       objectReference: {fileID: 877687922}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: dashAttackDuration
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: enemyLayerMask.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
