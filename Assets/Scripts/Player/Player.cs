@@ -129,7 +129,7 @@ public class Player : MonoBehaviour, ICharacterController
     {
         _moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
         _jumpInput = autoBhop ? InputSystem.actions["Jump"].IsPressed() : InputSystem.actions["Jump"].WasPressedThisFrame();
-        _attackInput = InputSystem.actions["Attack"].WasPressedThisFrame();
+        _attackInput = InputSystem.actions["Attack"].IsPressed();
         _dashAttackInput = InputSystem.actions["Dash Attack"].WasPressedThisFrame();
         _inputRot = mainCamera.transform.rotation;
 
