@@ -99,11 +99,9 @@ namespace Sword
 
         private void OnTriggerEnter(Collider other)
         {
-            // TODO: Check enemyLayer, get the Actor, dedupe with _hitActorsThisSwing, then apply swing behavior.
-            if (!IsInLayerMask(other.gameObject.layer, enemyLayer)) return;
-            
             Actor hitActor = other.GetComponentInParent<Actor>();
             if (hitActor == null) return;
+            if (!IsInLayerMask(hitActor.gameObject.layer, enemyLayer)) return;
 
             if (!_hitActorsThisSwing.Add(hitActor)) return;
             Debug.Log($"Swing hit: {hitActor.name}");
@@ -166,7 +164,7 @@ namespace Sword
             {
                 Debug.Log($"DASH: distExceeded={throwExceededMaxDistance} timeExceeded={throwExceededMaxTime} closer={swordGettingCloserToPlayer}"); 
                 _rigidbody.isKinematic = true;
-                Player.Instance.Dash(_dashDirection, Player.Instance.dashSpeed);
+                Player.Instance.Dash(_dashDirection, Player.Instance.dashSpeed, false);
                 _shouldTriggerPlayerDash = false;
                 Catch(); // give the sword back to the player
             }

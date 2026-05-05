@@ -22805,8 +22805,11 @@ MonoBehaviour:
   minDistance: 2.5
   maxDistance: 15
   attackInterval: 1
+  attackDelay: 0
   attackDamage: 20
   attackRange: 2.5
+  ragdollSpeed: 20
+  pelvis: {fileID: 0}
 --- !u!136 &6658165018401710356
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -22870,6 +22873,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Actor
   maxHealth: 1
+  bodyTimer: 5
+  illusoryWall: 0
+  fadeRate: 0.5
 --- !u!1 &6522694477419123456
 GameObject:
   m_ObjectHideFlags: 0

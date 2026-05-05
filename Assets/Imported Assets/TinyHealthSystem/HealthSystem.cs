@@ -46,7 +46,7 @@ public class HealthSystem : MonoBehaviour
 	void Awake()
 	{
 		Instance = this;
-		PlayerInstance = GetComponent<Player>();
+		PlayerInstance = Player.Instance;
 	}
 	
 	//==============================================================
@@ -132,6 +132,9 @@ public class HealthSystem : MonoBehaviour
 
 	public void TakeDamage(float Damage)
 	{
+
+		if (!PlayerInstance.depleteHealth) return;
+		
 		hitPoint -= Damage;
 		if (hitPoint < 1)
 			hitPoint = 0;

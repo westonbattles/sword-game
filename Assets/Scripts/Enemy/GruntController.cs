@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Specialized;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class GruntController : MonoBehaviour
     public float maxDistance = 15f;
     private float distanceToPlayer;
     public float attackInterval = 1f;
+    public float attackDelay = 0f;
     private float attackTimer = 1f;
     public float attackDamage = 20f;
     public float attackRange = 2.5f;
@@ -20,10 +22,13 @@ public class GruntController : MonoBehaviour
 
     bool canAttack = true;
     bool dead = false;
+    public bool IsRagdolling { get; private set; }
 
     private Rigidbody rb;
     public Transform pelvis;
     private Rigidbody[] ragdollRigidbodies;
+    private Collider[] ragdollColliders;
+    private Collider[] playerColliders;
     private Animator animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,6 +39,8 @@ public class GruntController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
+        ragdollColliders = GetComponentsInChildren<Collider>();
+        CachePlayerColliders();
         animator = GetComponent<Animator>();
 
         SetRagdollState(false); // start with ragdoll disabled
@@ -95,10 +102,17 @@ public class GruntController : MonoBehaviour
     {
         if (canAttack && distanceToPlayer <= attackRange)
         {
-            HealthSystem.Instance.TakeDamage(attackDamage);
             canAttack = false;
             animator.SetTrigger("Attack");
             Invoke(nameof(RefreshAttack), attackInterval);
+        }
+    }
+
+    public void DamagePlayer()
+    {
+        if (distanceToPlayer <= attackRange)
+        {
+            HealthSystem.Instance.TakeDamage(attackDamage);
         }
     }
 
@@ -109,15 +123,58 @@ public class GruntController : MonoBehaviour
     }
     public void SetRagdollState(bool state)
     {
+        IsRagdolling = state;
         // Toggle animator so it doesn't fight physics
         if (animator != null) animator.enabled = !state;
         gameObject.GetComponent<CapsuleCollider>().enabled = !state;
         navMeshAgent.enabled = !state;
+        SetPlayerRagdollCollisionsIgnored(state);
 
         foreach (Rigidbody rb in ragdollRigidbodies)
         {
             // Set kinematics to false when state is true for all rigidbody comps
             rb.isKinematic = !state;
+        }
+    }
+
+    void CachePlayerColliders()
+    {
+        if (playerColliders != null && playerColliders.Length > 0) return;
+
+        if (target != null)
+        {
+            playerColliders = target.GetComponentsInChildren<Collider>();
+        }
+
+        if ((playerColliders == null || playerColliders.Length == 0) && Player.Instance != null)
+        {
+            playerColliders = Player.Instance.GetComponentsInChildren<Collider>();
+        }
+
+        if (playerColliders == null || playerColliders.Length == 0)
+        {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if (playerObject != null)
+            {
+                playerColliders = playerObject.GetComponentsInChildren<Collider>();
+            }
+        }
+    }
+
+    void SetPlayerRagdollCollisionsIgnored(bool ignored)
+    {
+        CachePlayerColliders();
+        if (ragdollColliders == null || playerColliders == null) return;
+
+        foreach (Collider ragdollCollider in ragdollColliders)
+        {
+            if (ragdollCollider == null) continue;
+
+            foreach (Collider playerCollider in playerColliders)
+            {
+                if (playerCollider == null || playerCollider == ragdollCollider) continue;
+                Physics.IgnoreCollision(ragdollCollider, playerCollider, ignored);
+            }
         }
     }
 
@@ -130,4 +187,26 @@ public class GruntController : MonoBehaviour
         Rigidbody pelvisRb = pelvis.GetComponent<Rigidbody>();
         pelvisRb.AddForce(-transform.forward * ragdollSpeed, ForceMode.Impulse);
     }
+
+    public void DeathHandling(Vector3 ragdollDirection)
+    {
+        animator.SetBool("isDead", true);
+        dead = true;
+        SetRagdollState(true);
+
+        Vector3 forceDirection = ragdollDirection.sqrMagnitude > 0.001f
+            ? ragdollDirection.normalized
+            : transform.forward;
+
+        foreach (Rigidbody rb in ragdollRigidbodies)
+        {
+            rb.linearVelocity = forceDirection * ragdollSpeed;
+        }
+
+        Rigidbody pelvisRb = pelvis.GetComponent<Rigidbody>();
+        pelvisRb.AddForce(forceDirection * ragdollSpeed, ForceMode.VelocityChange);
+    }
+    
+    
+    
 }
