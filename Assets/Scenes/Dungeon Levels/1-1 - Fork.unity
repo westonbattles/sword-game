@@ -92803,8 +92803,16 @@ PrefabInstance:
       value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: crouchFrictionDropoff
+      value: 0.225
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
       propertyPath: dashAttackBrakeFactor
       value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: slideMomentumPreserveTime
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
