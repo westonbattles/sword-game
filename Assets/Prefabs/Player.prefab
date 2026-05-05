@@ -129,10 +129,10 @@ MonoBehaviour:
   crouchHeight: 1
   standingHeight: 1.75
   crouchSpeedMax: 4
-  slideSpeed: 20
-  slideDuration: 0.8
-  slideCooldown: 1
-  slideFriction: 5
+  minSlideSpeed: 8
+  crouchFrictionDropoff: 0.225
+  slideMomentumPreserveTime: 0.5
+  slideStartBoost: 2
   dashSpeed: 30
   HealthSystem: {fileID: 0}
   enemyLayerMask:
@@ -142,13 +142,17 @@ MonoBehaviour:
   hitSound: {fileID: 8300000, guid: 07fb184b2c30b3d46b63578c8e6d08a9, type: 3}
   regularAttackRange: 2
   dashAttackDuration: 0.55
+  dashAttackFloatTime: 0.15
   dashAttackPlowDuration: 0.5
+  dashAttackBrakeFactor: 0.7
+  dashAttackInputRampTime: 0.12
   dashAttackScreenRadius: 0.12
   dashAttackMomentumScale: 0.2
   dashAttackMaxMomentumBonus: 4
   dashAttackDamage: 5
-  depleteStamina: 1
+  depleteStamina: 0
   depleteHealth: 1
+  drawDebugTargetGui: 1
   Bars: {fileID: 0}
 --- !u!82 &3431292253711757092
 AudioSource:

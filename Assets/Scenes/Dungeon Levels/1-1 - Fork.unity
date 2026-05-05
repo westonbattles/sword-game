@@ -75898,11 +75898,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: abc00000000016401908683209413257, type: 3}
---- !u!1 &1217722972 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7060508379718375375, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
-  m_PrefabInstance: {fileID: 1536264650}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1219783894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92771,10 +92766,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
-      propertyPath: hitEffect
-      value: 
-      objectReference: {fileID: 1217722972}
-    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1081992588}
@@ -92783,37 +92774,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2010510738}
     - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
-      propertyPath: depleteHealth
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
-      propertyPath: depleteStamina
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
       propertyPath: playerAnimator
       value: 
       objectReference: {fileID: 877687922}
-    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
-      propertyPath: regularAttackRange
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
-      propertyPath: dashAttackFloatTime
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
-      propertyPath: crouchFrictionDropoff
-      value: 0.225
-      objectReference: {fileID: 0}
-    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
-      propertyPath: dashAttackBrakeFactor
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
-      propertyPath: slideMomentumPreserveTime
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
