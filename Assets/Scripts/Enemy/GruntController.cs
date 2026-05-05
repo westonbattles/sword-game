@@ -37,6 +37,7 @@ public class GruntController : MonoBehaviour
         navMeshAgent.stoppingDistance = minDistance;
         healthSystem = GetComponent<HealthSystem>();
         rb = GetComponent<Rigidbody>();
+        target = Player.Instance.transform;
 
         ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
         ragdollColliders = GetComponentsInChildren<Collider>();
