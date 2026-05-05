@@ -64,7 +64,10 @@ public class Player : MonoBehaviour, ICharacterController
     [Header("Dash Attack")]
     public float regularAttackRange = 2f;
     public float dashAttackDuration = 0.25f;
+    public float dashAttackFloatTime = 0.25f;
     public float dashAttackPlowDuration = 0.5f;
+    [Range(0f, 1f)] public float dashAttackBrakeFactor = 0.15f;
+    public float dashAttackInputRampTime = 0.12f;
     public float dashAttackScreenRadius = 0.12f;
     public float dashAttackMomentumScale = 0.2f;
     public float dashAttackMaxMomentumBonus = 4f;
@@ -86,6 +89,8 @@ public class Player : MonoBehaviour, ICharacterController
     
     public bool IsGrounded => _motor.GroundingStatus.IsStableOnGround;
     public bool IsCrouching => _isCrouching;
+    public bool IsSliding => _isSliding;
+    public bool IsJumpHeld { get; private set; }
 
     KinematicCharacterMotor _motor;
     Quaternion _inputRot;
@@ -94,6 +99,9 @@ public class Player : MonoBehaviour, ICharacterController
     bool _attackInput;
     bool _dashAttackInput;
     bool _isJumpingThisFrame;
+    bool _shouldBrakeDashAttack;
+    float _dashAttackInputRampTimer;
+    float _pendingDashAttackBrakeFactor;
     float _jumpBufferCounter;
     [Header("Map Triggers")]
     public GameObject Bars;
@@ -128,6 +136,7 @@ public class Player : MonoBehaviour, ICharacterController
     void UpdateInput()
     {
         _moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
+        IsJumpHeld = InputSystem.actions["Jump"].IsPressed();
         _jumpInput = autoBhop ? InputSystem.actions["Jump"].IsPressed() : InputSystem.actions["Jump"].WasPressedThisFrame();
         _attackInput = InputSystem.actions["Attack"].IsPressed();
         _dashAttackInput = InputSystem.actions["Dash Attack"].WasPressedThisFrame();
@@ -243,6 +252,13 @@ public class Player : MonoBehaviour, ICharacterController
         _motor.ForceUnground(.25f); // lets you dash along objects without insta stopping you
         if (depleteStamina) HealthSystem.Instance.UseMana(20); // consumes 20 mana on dash
     }
+
+    public void RequestDashAttackBrake(float brakeFactor)
+    {
+        _shouldBrakeDashAttack = true;
+        _pendingDashAttackBrakeFactor = Mathf.Clamp01(brakeFactor);
+        _dashAttackInputRampTimer = Mathf.Max(0f, dashAttackInputRampTime);
+    }
     
     void VelocitySet(ref Vector3 currentVelocity, float dt)
     {
@@ -253,7 +269,23 @@ public class Player : MonoBehaviour, ICharacterController
             return;
         }
 
-        Vector3 inputDir = new Vector3(_moveInput.x, 0f, _moveInput.y);
+        if (_shouldBrakeDashAttack)
+        {
+            _shouldBrakeDashAttack = false;
+            Vector3 horizontalVelocity = Vector3.ProjectOnPlane(currentVelocity, _motor.CharacterUp);
+            Vector3 verticalVelocity = currentVelocity - horizontalVelocity;
+            currentVelocity = verticalVelocity + horizontalVelocity * _pendingDashAttackBrakeFactor;
+        }
+
+        float inputScale = 1f;
+        if (_dashAttackInputRampTimer > 0f && dashAttackInputRampTime > 0f)
+        {
+            _dashAttackInputRampTimer = Mathf.Max(0f, _dashAttackInputRampTimer - dt);
+            inputScale = 1f - (_dashAttackInputRampTimer / dashAttackInputRampTime);
+        }
+
+        Vector2 effectiveMoveInput = _moveInput * inputScale;
+        Vector3 inputDir = new Vector3(effectiveMoveInput.x, 0f, effectiveMoveInput.y);
         inputDir = Quaternion.Euler(0, _inputRot.eulerAngles.y, 0) * inputDir;
         inputDir = Vector3.ClampMagnitude(inputDir, 1f);
 
@@ -407,6 +439,12 @@ public class Player : MonoBehaviour, ICharacterController
     }
     public bool IsColliderValidForCollisions(Collider coll)
     {
+        GruntController gruntController = coll.GetComponentInParent<GruntController>();
+        if (gruntController != null && gruntController.IsRagdolling)
+        {
+            return false;
+        }
+
         return _dashAttack == null || _dashAttack.IsColliderValidForCollisions(coll);
     }
 

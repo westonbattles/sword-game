@@ -4,6 +4,9 @@ using UnityEngine;
 public class PlayerDashAttack
 {
     readonly Player _player;
+    readonly float _defaultGravity;
+    Actor _dashAttackTarget;
+    float _dashAttackFloatTimer;
     float _dashAttackPlowTimer;
     float _dashAttackTimer;
     readonly HashSet<Actor> _dashAttackDamagedActors = new HashSet<Actor>();
@@ -11,6 +14,7 @@ public class PlayerDashAttack
     public PlayerDashAttack(Player player)
     {
         _player = player;
+        _defaultGravity = player.gravity;
     }
 
     public void Tick()
@@ -24,6 +28,20 @@ public class PlayerDashAttack
         {
             _dashAttackPlowTimer -= Time.deltaTime;
         }
+
+        if (_dashAttackFloatTimer > 0f)
+        {
+            _dashAttackFloatTimer -= Time.deltaTime;
+            if (_dashAttackTarget != null && IsTargetInRegularAttackRange(_dashAttackTarget))
+            {
+                FinishDashAttackFloat();
+            }
+            else if (_dashAttackFloatTimer <= 0f)
+            {
+                ResetGravity();
+            }
+        }
+        
     }
 
     public bool TryDashAttack()
@@ -41,13 +59,55 @@ public class PlayerDashAttack
             GetActorTargetPoint(enemy)
         );
 
-        if (distanceToEnemy <= _player.regularAttackRange) return false;
+        if (distanceToEnemy <= _player.regularAttackRange)
+        {
+            ResetGravity();
+            return false;
+        }
             
         Vector3 dashDirection = (enemy.transform.position - _player.transform.position).normalized;
+        _dashAttackTarget = enemy;
+        _player.gravity = 0;
+        _dashAttackFloatTimer = Mathf.Max(0f, _player.dashAttackFloatTime);
+        if (_dashAttackFloatTimer <= 0f)
+        {
+            ResetGravity();
+        }
         _player.Dash(dashDirection, _player.dashSpeed, true);
         _dashAttackTimer = _player.dashAttackDuration;
             
         return true;
+    }
+
+    bool IsTargetInRegularAttackRange(Actor target)
+    {
+        float distanceToTarget = Vector3.Distance(
+            _player.mainCamera.transform.position,
+            GetActorTargetPoint(target)
+        );
+
+        return distanceToTarget <= _player.regularAttackRange;
+    }
+
+    void FinishDashAttackFloat()
+    {
+        if (!_player.IsSliding && !_player.IsJumpHeld)
+        {
+            _player.RequestDashAttackBrake(_player.dashAttackBrakeFactor);
+        }
+
+        ResetGravity();
+    }
+
+    void ResetGravity()
+    {
+        if (!Mathf.Approximately(_player.gravity, _defaultGravity))
+        {
+            _player.gravity = _defaultGravity;
+        }
+
+        _dashAttackFloatTimer = 0f;
+        _dashAttackTarget = null;
     }
 
     public void BeginDashAttack()
@@ -221,6 +281,7 @@ public class PlayerDashAttack
         if (_player == null) return;
 
         //DrawScreenSpaceTargetRadius();
+        
         DrawSelectedDashTarget();
     }
 
@@ -238,6 +299,7 @@ public class PlayerDashAttack
         float finalDashAttackRange = GetDashAttackRange(_player.Motor.Velocity, _player.mainCamera.transform.forward);
         if (!TryGetBestDashAttackTarget(finalDashAttackRange, out Actor target)) return;
         if (!TryGetActorScreenRect(target, out Rect targetRect)) return;
+        if (IsTargetInRegularAttackRange(target)) return;
 
         Vector2 center = targetRect.center;
         float radius = Mathf.Max(targetRect.width, targetRect.height) * 0.5f;
