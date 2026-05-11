@@ -34519,6 +34519,10 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 1575850112}
+    - target: {fileID: 6101192256626520009, guid: fb44efabcda15754399d23c3beade9d7, type: 3}
+      propertyPath: nextLevelName
+      value: 1-1 - Fork
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

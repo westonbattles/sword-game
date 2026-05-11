@@ -11,9 +11,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Sandbox.unity
     guid: 6cf8ee8e449b92a4881ada881b5ced23
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Dungeon 0.unity
     guid: 46cf046982659e643b9dc4992f7a6799
+  - enabled: 1
+    path: Assets/Scenes/Dungeon Levels/1-0 - Tutorial.unity
+    guid: e6bdc5b1fc9820043891cc08f11cc428
+  - enabled: 1
+    path: Assets/Scenes/Dungeon Levels/1-1 - Fork.unity
+    guid: 4980390f79e41b64ab046961c4c5dd2a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
