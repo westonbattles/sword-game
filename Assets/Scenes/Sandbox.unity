@@ -2151,6 +2151,7 @@ MonoBehaviour:
   minDistance: 2.5
   maxDistance: 15
   attackInterval: 1
+  attackDelay: 0
   attackDamage: 20
   attackRange: 2.5
   ragdollSpeed: 20
@@ -10247,6 +10248,22 @@ PrefabInstance:
       propertyPath: playerAnimator
       value: 
       objectReference: {fileID: 1481932403}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: mantleLayers.m_Bits
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: mantleReachDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: mantleMaxLedgeHeight
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: mantleMinLedgeHeight
+      value: 0.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
