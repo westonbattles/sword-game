@@ -102,6 +102,10 @@ public class Player : MonoBehaviour, ICharacterController
     [Header("Map Triggers")]
     public GameObject Bars;
 
+    [Header("Data")] // thinks like level location, keys, triggers and such. Things that might be saved by a checkpoint system
+    public bool[] keys; // Don't modify this directly, call SetKey(int key, bool playerHasKey) and ResetKeys()
+    public int numKeys = 3;
+
     void Awake()
     {
         Instance = this;
@@ -109,12 +113,14 @@ public class Player : MonoBehaviour, ICharacterController
         _dashAttack = new PlayerDashAttack(this);
         if (autoBhop) jumpBufferTime = 0.01f; // jump buffer with auto bhop feels bad
         audioSource = GetComponent<AudioSource>();
+        
     }
 
     void Start()
     {
         _motor.CharacterController = this;
         HealthSystem = GetComponent<HealthSystem>();
+        keys = new bool[numKeys];
     }
 
     void Update()
@@ -477,6 +483,7 @@ public class Player : MonoBehaviour, ICharacterController
     {
         GetComponent<KinematicCharacterMotor>().enabled = false;
 
+
         yield return new WaitForSeconds(2f);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -495,6 +502,31 @@ public class Player : MonoBehaviour, ICharacterController
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1f;
+    }
+
+    public void ResetKeys()
+    {
+        for (int i = 0; i < numKeys; i++)
+        {
+            keys[i] = false;
+        }
+    }
+    public void SetKey(int key, bool playerHasKey)
+    {
+        if (key < numKeys)
+        {
+            keys[key] = playerHasKey;
+        }
+    }
+    public bool hasKeys(int keysNeeded)
+    {
+        Debug.Log("Checking keys.");
+        for (int i = 0; i < keysNeeded; i++)
+        {
+            if (!keys[i]) return false;
+        }
+        Debug.Log("Adequate key possession.");
+        return true;
     }
 }
 
