@@ -25204,6 +25204,38 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: abc00000000007624341679315607981, type: 3}
+--- !u!1 &353241762
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 353241763}
+  m_Layer: 0
+  m_Name: TextTriggers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &353241763
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353241762}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1688884199}
+  m_Father: {fileID: 655006716}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &354278039 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: abc00000000000942869529760319899, type: 3}
@@ -48513,6 +48545,7 @@ Transform:
   - {fileID: 1389174702}
   - {fileID: 316105893}
   - {fileID: 1833543554}
+  - {fileID: 353241763}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &656025624 stripped
@@ -129141,6 +129174,74 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2108400989}
   m_SourcePrefab: {fileID: 100100000, guid: abc00000000001925306952476846554, type: 3}
+--- !u!1001 &1688884198
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 353241763}
+    m_Modifications:
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 29.637
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.656
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 26.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 951683083027517871, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: dialogueText
+      value: You've made it to a new wing, but you're still not out. You feel strong
+        enough now to use your sword's dash attack. Press shift while looking at
+        an enemy to launch into them.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8699950104826679998, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_Name
+      value: DialogueDashAttack
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+--- !u!4 &1688884199 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+  m_PrefabInstance: {fileID: 1688884198}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1689229863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -159642,6 +159743,68 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 656025625}
   m_SourcePrefab: {fileID: 100100000, guid: abc00000000003469573176554636223, type: 3}
+--- !u!1001 &2093708424
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.171815
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 26.918873
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 951683083027517871, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: dialogueText
+      value: This door seems to be sealed with two locks... you'll need to find both
+        keys to get through.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8699950104826679998, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_Name
+      value: TextTrigger
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
 --- !u!1 &2099277819 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: abc00000000016401908683209413257, type: 3}
@@ -163030,3 +163193,4 @@ SceneRoots:
   - {fileID: 140807174}
   - {fileID: 549392110}
   - {fileID: 1881421949}
+  - {fileID: 2093708424}
