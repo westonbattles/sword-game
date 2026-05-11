@@ -31,6 +31,8 @@ public class EnemySpawner : MonoBehaviour
     private bool _spawnerActive = false;
     private bool _waveRunning = false;
 
+    public GameObject[] DoorUnlock;
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -106,10 +108,9 @@ public class EnemySpawner : MonoBehaviour
         Debug.Log($"[EnemySpawner] Spawned {_activeEnemies.Count} enemies.");
     }
 
-    /// <summary>
+
     /// Returns true once every tracked enemy has been destroyed.
     /// Null entries are treated as destroyed.
-    /// </summary>
     private bool AllEnemiesCleared()
     {
         foreach (GameObject enemy in _activeEnemies)
@@ -124,15 +125,16 @@ public class EnemySpawner : MonoBehaviour
     // Extensibility hook
     // -------------------------------------------------------------------------
 
-    /// <summary>
-    /// Called once all waves are finished.
-    /// Override or extend this method to trigger rewards, cutscenes, door unlocks, etc.
-    /// </summary>
+    
     protected virtual void OnAllWavesComplete()
     {
         // Example: disable the trigger collider so it can't be re-activated.
         Collider col = GetComponent<Collider>();
         if (col != null) col.enabled = false;
+        foreach (GameObject wall in DoorUnlock)
+        {
+            wall.SetActive(false);
+        }
     }
 
     // -------------------------------------------------------------------------

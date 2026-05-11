@@ -43,6 +43,20 @@ public class Player : MonoBehaviour, ICharacterController
     private bool _isSliding;
     float _slideMomentumPreserveTimer;
 
+    enum MantlePhase { None, Rising, Forwarding }
+    MantlePhase _mantlePhase = MantlePhase.None;
+    Vector3 _mantleTargetPosition;
+    float _mantleTimer;
+
+    [Header("Mantle")]
+    [SerializeField] float mantleReachDistance = 0.8f;
+    [SerializeField] float mantleMaxLedgeHeight = 2.2f;  // relative to player feet
+    [SerializeField] float mantleMinLedgeHeight = 1.0f;  // avoid mantling tiny steps
+    [SerializeField] float mantleRiseDuration = 0.2f;
+    [SerializeField] float mantleForwardDuration = 0.2f;
+    [SerializeField] LayerMask mantleLayers;
+    public bool IsMantling => _mantlePhase != MantlePhase.None;
+
     [Header("Dash")]
     [SerializeField] public float dashSpeed = 10f;
     [SerializeField] private HealthSystem HealthSystem;
@@ -102,6 +116,10 @@ public class Player : MonoBehaviour, ICharacterController
     [Header("Map Triggers")]
     public GameObject Bars;
 
+    [Header("Data")] // thinks like level location, keys, triggers and such. Things that might be saved by a checkpoint system
+    public bool[] keys; // Don't modify this directly, call SetKey(int key, bool playerHasKey) and ResetKeys()
+    public int numKeys = 3;
+
     void Awake()
     {
         Instance = this;
@@ -109,12 +127,14 @@ public class Player : MonoBehaviour, ICharacterController
         _dashAttack = new PlayerDashAttack(this);
         if (autoBhop) jumpBufferTime = 0.01f; // jump buffer with auto bhop feels bad
         audioSource = GetComponent<AudioSource>();
+        
     }
 
     void Start()
     {
         _motor.CharacterController = this;
         HealthSystem = GetComponent<HealthSystem>();
+        keys = new bool[numKeys];
     }
 
     void Update()
@@ -138,10 +158,20 @@ public class Player : MonoBehaviour, ICharacterController
         _dashAttackInput = InputSystem.actions["Dash Attack"].WasPressedThisFrame();
         _inputRot = mainCamera.transform.rotation;
 
+        // FIXED
         if (_jumpInput)
+        {
             _jumpBufferCounter = jumpBufferTime;
+
+            if (TryBeginMantle())
+            {
+                _jumpBufferCounter = 0f;
+            }
+        }
         else
+        {
             _jumpBufferCounter -= Time.deltaTime;
+        }
 
         _isCrouching = InputSystem.actions["Crouch"].IsPressed();
         if (!_isCrouching)
@@ -244,9 +274,111 @@ public class Player : MonoBehaviour, ICharacterController
         _pendingDashAttackBrakeFactor = Mathf.Clamp01(brakeFactor);
         _dashAttackInputRampTimer = Mathf.Max(0f, dashAttackInputRampTime);
     }
-    
+
+    bool TryBeginMantle()
+    {
+        //Debug.Log("Trying Mantle");
+        if (IsMantling)
+        {
+            //Debug.Log("Already mantling, cannot start another mantle.");
+            return false;
+        }
+
+        Vector3 forward = Vector3.ProjectOnPlane(_inputRot * Vector3.forward, _motor.CharacterUp).normalized;
+        Vector3 feet = _motor.TransientPosition;
+        LayerMask mantleMask = mantleLayers & ~(1 << gameObject.layer);
+
+        // Diagnostic — log what AllLayers hits to identify correct layer
+        if (Physics.Raycast(feet + _motor.CharacterUp * 0.9f, forward, out RaycastHit debugHit,
+            mantleReachDistance, mantleMask, QueryTriggerInteraction.Ignore))
+        {
+            //Debug.Log($"AllLayers hit: {debugHit.collider.gameObject.name} on layer {debugHit.collider.gameObject.layer} ({LayerMask.LayerToName(debugHit.collider.gameObject.layer)})");
+        }
+        else
+        {
+            //Debug.Log("AllLayers hit nothing — collider may be a trigger or missing entirely");
+        }
+
+        // 1. Wall check — sweep multiple heights, no layer mask to confirm geometry
+        float[] wallCheckHeights = { 0.3f, 0.6f, 0.9f, 1.2f, standingHeight * 0.8f };
+        RaycastHit wallHit = default;
+        bool foundWall = false;
+
+        foreach (float height in wallCheckHeights)
+        {
+            Vector3 origin = feet + _motor.CharacterUp * height;
+            //Debug.DrawRay(origin, forward * mantleReachDistance, Color.red, 1f);
+            if (Physics.Raycast(origin, forward, out wallHit, mantleReachDistance,
+                Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            {
+                foundWall = true;
+                //Debug.Log($"Wall hit at height {height} on object {wallHit.collider.gameObject.name} layer {LayerMask.LayerToName(wallHit.collider.gameObject.layer)}");
+                break;
+            }
+        }
+
+        if (!foundWall)
+        {
+            //Debug.Log("No wall detected at any height.");
+            return false;
+        }
+
+        // 2. Ledge top check — cast down from above the wall
+        Vector3 castOrigin = wallHit.point + _motor.CharacterUp * (mantleMaxLedgeHeight + 0.5f) + forward * 0.1f;
+        Debug.DrawRay(castOrigin, -_motor.CharacterUp * (mantleMaxLedgeHeight + 0.5f), Color.blue, 1f);
+        if (!Physics.Raycast(castOrigin, -_motor.CharacterUp, out RaycastHit ledgeHit,
+            mantleMaxLedgeHeight + 0.5f, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        {
+            //Debug.Log("No ledge surface found above wall hit.");
+            return false;
+        }
+        //Debug.Log($"Ledge detected at height {ledgeHit.point.y}, relative: {ledgeHit.point.y - feet.y}");
+
+        // 3. Height validation — ledge must be meaningfully above feet
+        float ledgeRelativeHeight = ledgeHit.point.y - feet.y;
+        if (ledgeRelativeHeight < mantleMinLedgeHeight)
+        {
+            //Debug.Log($"Ledge is too low to mantle. Relative height: {ledgeRelativeHeight}");
+            return false;
+        }
+
+        // 4. Clearance — can the player stand at the top?
+        Vector3 standPos = ledgeHit.point;
+        if (Physics.CheckCapsule(
+            standPos + _motor.CharacterUp * (_motor.Capsule.radius + 0.05f),
+            standPos + _motor.CharacterUp * (standingHeight - _motor.Capsule.radius),
+            _motor.Capsule.radius, Physics.AllLayers))
+        {
+            //Debug.Log("Not enough clearance to stand at ledge top.");
+            return false;
+        }
+
+        _mantleTargetPosition = standPos;
+        _mantlePhase = MantlePhase.Rising;
+        _mantleTimer = 0f;
+        _motor.ForceUnground(mantleRiseDuration + mantleForwardDuration);
+        //Debug.Log("Mantle started successfully.");
+        return true;
+    }
+
     void VelocitySet(ref Vector3 currentVelocity, float dt)
     {
+        if (IsMantling)
+        {
+            if (_mantlePhase == MantlePhase.Rising)
+            {
+                float distanceToTop = _mantleTargetPosition.y - _motor.TransientPosition.y;
+                currentVelocity = _motor.CharacterUp * (distanceToTop / mantleRiseDuration);
+            }
+            else if (_mantlePhase == MantlePhase.Forwarding)
+            {
+                Vector3 forwardTarget = _mantleTargetPosition + transform.forward * (_motor.Capsule.radius + 0.1f);
+                Vector3 toTarget = forwardTarget - _motor.TransientPosition;
+                currentVelocity = toTarget / mantleForwardDuration;
+            }
+            return;
+        }
+
         if (_shouldDash)
         {
             currentVelocity = _dashVelocity;
@@ -381,7 +513,22 @@ public class Player : MonoBehaviour, ICharacterController
     }
 
     public void BeforeCharacterUpdate(float deltaTime) { }
-    public void AfterCharacterUpdate(float deltaTime) { }
+    public void AfterCharacterUpdate(float deltaTime)
+    {
+        if (_mantlePhase == MantlePhase.None) return;
+
+        _mantleTimer += deltaTime;
+
+        if (_mantlePhase == MantlePhase.Rising && _mantleTimer >= mantleRiseDuration)
+        {
+            _mantlePhase = MantlePhase.Forwarding;
+            _mantleTimer = 0f;
+        }
+        else if (_mantlePhase == MantlePhase.Forwarding && _mantleTimer >= mantleForwardDuration)
+        {
+            _mantlePhase = MantlePhase.None;
+        }
+    }
 
     public void PostGroundingUpdate(float deltaTime)
     {
@@ -477,6 +624,7 @@ public class Player : MonoBehaviour, ICharacterController
     {
         GetComponent<KinematicCharacterMotor>().enabled = false;
 
+
         yield return new WaitForSeconds(2f);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -495,6 +643,31 @@ public class Player : MonoBehaviour, ICharacterController
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1f;
+    }
+
+    public void ResetKeys()
+    {
+        for (int i = 0; i < numKeys; i++)
+        {
+            keys[i] = false;
+        }
+    }
+    public void SetKey(int key, bool playerHasKey)
+    {
+        if (key < numKeys)
+        {
+            keys[key] = playerHasKey;
+        }
+    }
+    public bool hasKeys(int keysNeeded)
+    {
+        Debug.Log("Checking keys.");
+        for (int i = 0; i < keysNeeded; i++)
+        {
+            if (!keys[i]) return false;
+        }
+        Debug.Log("Adequate key possession.");
+        return true;
     }
 }
 
