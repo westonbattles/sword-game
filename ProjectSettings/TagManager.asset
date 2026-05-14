@@ -12,6 +12,8 @@ TagManager:
   - Bars
   - Enemy
   - TextTrigger
+  - InteractableDialogue
+  - InteractablePickup
   layers:
   - Default
   - TransparentFX

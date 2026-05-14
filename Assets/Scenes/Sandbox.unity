@@ -4356,7 +4356,7 @@ GameObject:
   - component: {fileID: 259170997}
   m_Layer: 0
   m_Name: InteractableDialogue
-  m_TagString: Untagged
+  m_TagString: InteractablePickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4383,14 +4383,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 259170995}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Outline
-  outlineMode: 3
+  outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
+  outlineWidth: 10
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -10432,8 +10432,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1880460084624742626, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 957382304}
   m_SourcePrefab: {fileID: 100100000, guid: ded4686b6130840458da73e4507d689d, type: 3}
+--- !u!1 &957382303 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1880460084624742626, guid: ded4686b6130840458da73e4507d689d, type: 3}
+  m_PrefabInstance: {fileID: 957382302}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &957382304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957382303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1865cf2f0254c42faafaf9a8e6f67090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  mainCamera: {fileID: 1519832697}
 --- !u!1 &969560738
 GameObject:
   m_ObjectHideFlags: 0
@@ -15338,9 +15359,10 @@ GameObject:
   - component: {fileID: 1459738361}
   - component: {fileID: 1459738360}
   - component: {fileID: 1459738359}
+  - component: {fileID: 1459738362}
   m_Layer: 0
   m_Name: InteractablePickup
-  m_TagString: Untagged
+  m_TagString: InteractableDialogue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15438,6 +15460,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459738357}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1459738362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459738357}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Outline
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!95 &1481932403 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 8629326946861435482, guid: 44db371a2bf50416b8b6bcd4a4960c14, type: 3}
