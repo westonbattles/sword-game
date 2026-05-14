@@ -56,6 +56,7 @@ public class Player : MonoBehaviour, ICharacterController
     [SerializeField] float mantleForwardDuration = 0.2f;
     [SerializeField] LayerMask mantleLayers;
     public bool IsMantling => _mantlePhase != MantlePhase.None;
+    bool _isDashing;
 
     [Header("Dash")]
     [SerializeField] public float dashSpeed = 10f;
@@ -158,7 +159,6 @@ public class Player : MonoBehaviour, ICharacterController
         _dashAttackInput = InputSystem.actions["Dash Attack"].WasPressedThisFrame();
         _inputRot = mainCamera.transform.rotation;
 
-        // FIXED
         if (_jumpInput)
         {
             _jumpBufferCounter = jumpBufferTime;
@@ -257,7 +257,8 @@ public class Player : MonoBehaviour, ICharacterController
     {
         _dashVelocity = directionNormalized * speed;
         _shouldDash = true;
-        
+        _isDashing = true;
+
         // if the attack is a dash attack, enable enemy plowing
         if (dashAttack)
         {
@@ -512,7 +513,17 @@ public class Player : MonoBehaviour, ICharacterController
         }
     }
 
-    public void BeforeCharacterUpdate(float deltaTime) { }
+    public void BeforeCharacterUpdate(float deltaTime)
+    {
+        if (_isDashing && !_motor.GroundingStatus.IsStableOnGround && !IsMantling)
+        {
+            if (TryBeginMantle())
+            {
+                _isDashing = false;
+                _shouldDash = false;
+            }
+        }
+    }
     public void AfterCharacterUpdate(float deltaTime)
     {
         if (_mantlePhase == MantlePhase.None) return;
@@ -537,6 +548,7 @@ public class Player : MonoBehaviour, ICharacterController
             OnLand?.Invoke();
             _motor.StepHandling = StepHandlingMethod.Standard;
             _isJumpingThisFrame = false;
+            _isDashing = false;
         }
         else if (!_motor.GroundingStatus.IsStableOnGround && _motor.LastGroundingStatus.IsStableOnGround)
         {
