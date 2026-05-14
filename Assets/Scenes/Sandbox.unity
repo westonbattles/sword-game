@@ -4356,7 +4356,7 @@ GameObject:
   - component: {fileID: 259170997}
   m_Layer: 0
   m_Name: InteractableDialogue
-  m_TagString: InteractablePickup
+  m_TagString: InteractableDialogue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15362,7 +15362,7 @@ GameObject:
   - component: {fileID: 1459738362}
   m_Layer: 0
   m_Name: InteractablePickup
-  m_TagString: InteractableDialogue
+  m_TagString: InteractablePickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
