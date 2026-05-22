@@ -4354,6 +4354,7 @@ GameObject:
   - component: {fileID: 259170999}
   - component: {fileID: 259170998}
   - component: {fileID: 259170997}
+  - component: {fileID: 259171001}
   m_Layer: 0
   m_Name: InteractableDialogue
   m_TagString: InteractableDialogue
@@ -4472,6 +4473,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 259170995}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &259171001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259170995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb19d535e1cb48e4cbbd6ce7dd82fc73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueTrigger
+  dialogueText: testing
 --- !u!1 &316378893
 GameObject:
   m_ObjectHideFlags: 0
@@ -10455,7 +10469,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   mainCamera: {fileID: 1519832697}
+  textPrefab: {fileID: 1147065743}
   ToastBackground: {fileID: 1220862164}
+  dialogueInput: 
 --- !u!1 &969560738
 GameObject:
   m_ObjectHideFlags: 0
@@ -12399,6 +12415,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   dialogueText: This is a sample text to be read in the dialogue box.
+--- !u!1 &1147065743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8699950104826679998, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+  m_PrefabInstance: {fileID: 6313903338435766239}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1160170548
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,14 +2,16 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 using UnityEngine.InputSystem;
+using System;
 
 public class OutlineController : MonoBehaviour
 {
     [SerializeField] public Camera mainCamera;
+    public GameObject textPrefab;
+    [SerializeField] public GameObject ToastBackground;
     private Player _player;
     private Outline _currentOutline;
-    [SerializeField] public GameObject ToastBackground;
-    bool _interactPressed;
+    private bool _interactPressed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public OutlineController(Player player)
@@ -26,7 +28,7 @@ public class OutlineController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _interactPressed = InputSystem.actions["Interact"].IsPressed();
+        _interactPressed = InputSystem.actions["Interact"].WasPressedThisFrame();
         Camera sourceCamera = mainCamera != null ? mainCamera : Camera.main;
         if (sourceCamera == null)
             return;
@@ -90,11 +92,19 @@ public class OutlineController : MonoBehaviour
     {
         if (_currentOutline != null)
         {
-            // Implement dialogue logic here
             Debug.Log("Started dialogue with: " + _currentOutline.gameObject.name);
-            GameObject dialogueTrigger = new GameObject("LoreTrigger");
-            dialogueTrigger.tag = "TextTrigger";
-            dialogueTrigger.transform.position = _player.gameObject.transform.position;
+            GameObject loreText = Instantiate(textPrefab, transform.position + transform.forward * 2, Quaternion.identity);
+
+            DialogueTrigger trigger = loreText.GetComponent<DialogueTrigger>();
+            if (trigger != null)
+            {
+                trigger.dialogueText = _currentOutline.gameObject.GetComponent<DialogueTrigger>().dialogueText;
+            }
+            else
+            {
+                Debug.LogWarning("DialogueTrigger not found on loreText prefab");
+            }
+            Destroy(loreText, 5f);
         }
     }
 }
