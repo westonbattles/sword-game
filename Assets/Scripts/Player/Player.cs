@@ -645,6 +645,7 @@ public class Player : MonoBehaviour, ICharacterController
     public void Suspend()
     {
         // Nullify inputs and unlock mouse for menu pressing
+        InputSystem.actions["Interact"].Disable();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 0f;
@@ -652,6 +653,7 @@ public class Player : MonoBehaviour, ICharacterController
 
     public void Unsuspend()
     {
+        InputSystem.actions["Interact"].Enable();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1f;
