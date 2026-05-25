@@ -10450,6 +10450,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1880460084624742626, guid: ded4686b6130840458da73e4507d689d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 957382304}
+    - targetCorrespondingSourceObject: {fileID: 1880460084624742626, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 957382312}
   m_SourcePrefab: {fileID: 100100000, guid: ded4686b6130840458da73e4507d689d, type: 3}
 --- !u!1 &957382303 stripped
 GameObject:
@@ -10471,7 +10474,18 @@ MonoBehaviour:
   mainCamera: {fileID: 1519832697}
   textPrefab: {fileID: 1147065743}
   ToastBackground: {fileID: 1220862164}
-  dialogueInput: 
+--- !u!114 &957382312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957382303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8734cf799d76061139177daf543fc152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &969560738
 GameObject:
   m_ObjectHideFlags: 0

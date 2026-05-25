@@ -82,9 +82,11 @@ public class OutlineController : MonoBehaviour
     {
         if (_currentOutline != null)
         {
+            Inventory inv = GetComponent<Inventory>();
             _currentOutline.gameObject.SetActive(false);
-            //rest of logic later lol
-             Debug.Log("Picked up: " + _currentOutline.gameObject.name);
+            inv.AddItem(_currentOutline.gameObject.name);
+            Debug.Log("Picked up: " + _currentOutline.gameObject.name);
+            inv.PrintInventory();
         }
     }
 
