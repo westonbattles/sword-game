@@ -25,15 +25,6 @@ public class LevelEndScreen : MonoBehaviour
         mainMenuButton.onClick.AddListener(mainMenu);
     }
 
-    void Update()
-    {
-        bool skipLevel = Input.GetKeyDown(KeyCode.N);
-        if (skipLevel)
-        {
-            nextLevel();
-        }
-    }
-
     public void levelEnd()
     {
         Player.GetComponent<Player>().Suspend();

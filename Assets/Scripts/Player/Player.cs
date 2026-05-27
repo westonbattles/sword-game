@@ -61,6 +61,7 @@ public class Player : MonoBehaviour, ICharacterController
     [Header("Dash")]
     [SerializeField] public float dashSpeed = 10f;
     [SerializeField] private HealthSystem HealthSystem;
+    [SerializeField] private LevelEndScreen levelEndScreen;
     public event Action OnJump;
     public event Action OnLand;
 
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour, ICharacterController
     bool _attackInput;
     bool _dashAttackInput;
     bool _isJumpingThisFrame;
+    bool _skipLevelPressed;
     bool _shouldBrakeDashAttack;
     float _dashAttackInputRampTimer;
     float _pendingDashAttackBrakeFactor;
@@ -135,6 +137,7 @@ public class Player : MonoBehaviour, ICharacterController
     {
         _motor.CharacterController = this;
         HealthSystem = GetComponent<HealthSystem>();
+        levelEndScreen = FindObjectOfType<LevelEndScreen>();
         keys = new bool[numKeys];
     }
 
@@ -157,6 +160,7 @@ public class Player : MonoBehaviour, ICharacterController
         _jumpInput = autoBhop ? InputSystem.actions["Jump"].IsPressed() : InputSystem.actions["Jump"].WasPressedThisFrame();
         _attackInput = InputSystem.actions["Attack"].IsPressed();
         _dashAttackInput = InputSystem.actions["Dash Attack"].WasPressedThisFrame();
+        _skipLevelPressed = InputSystem.actions["SkipLevel"].WasPressedThisFrame();
         _inputRot = mainCamera.transform.rotation;
 
         if (_jumpInput)
@@ -193,6 +197,12 @@ public class Player : MonoBehaviour, ICharacterController
         else
         {
             TryStandUp();
+        }
+
+        if (_skipLevelPressed)
+        {
+            Debug.Log("Skip Level Pressed");
+            SceneManager.LoadScene(levelEndScreen.nextLevelName);
         }
     }
 
