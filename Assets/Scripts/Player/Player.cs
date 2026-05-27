@@ -580,7 +580,9 @@ public class Player : MonoBehaviour, ICharacterController
         UnityEngine.Debug.Log("Player entered trigger with tag " + other.tag);
         if (other.gameObject.CompareTag("HealthZone"))
         {
-            HealthSystem.Instance.HealDamage(HealthSystem.Instance.maxHitPoint);
+            HealthPickup healthPickup = other.gameObject.GetComponent<HealthPickup>();
+            HealthSystem.Instance.HealDamage(healthPickup.healAmount);
+            if (healthPickup.singleUse) other.gameObject.SetActive(false);
         }
         else if (other.gameObject.CompareTag("ManaZone"))
         {
