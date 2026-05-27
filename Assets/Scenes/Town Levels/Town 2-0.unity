@@ -21909,6 +21909,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1015221400}
     - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: depleteStamina
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
       propertyPath: playerAnimator
       value: 
       objectReference: {fileID: 246365285}

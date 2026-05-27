@@ -19091,6 +19091,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 76114999}
     - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
+      propertyPath: depleteStamina
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041964598885881256, guid: ded4686b6130840458da73e4507d689d, type: 3}
       propertyPath: playerAnimator
       value: 
       objectReference: {fileID: 872030619}
@@ -39808,6 +39812,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 91471268}
+    - target: {fileID: 1046360721006312675, guid: 0d6bd06d07f74a846bc10e1b0a9f7934, type: 3}
+      propertyPath: attackRange
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1046360721006312675, guid: 0d6bd06d07f74a846bc10e1b0a9f7934, type: 3}
       propertyPath: healthSystem
       value: 
