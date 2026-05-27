@@ -137,7 +137,7 @@ public class Player : MonoBehaviour, ICharacterController
     {
         _motor.CharacterController = this;
         HealthSystem = GetComponent<HealthSystem>();
-        levelEndScreen = FindObjectOfType<LevelEndScreen>();
+        levelEndScreen = Resources.FindObjectsOfTypeAll<LevelEndScreen>()[0];
         keys = new bool[numKeys];
     }
 
