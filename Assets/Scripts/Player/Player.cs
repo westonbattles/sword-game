@@ -84,6 +84,7 @@ public class Player : MonoBehaviour, ICharacterController
     public float dashAttackMomentumScale = 0.2f;
     public float dashAttackMaxMomentumBonus = 4f;
     public int dashAttackDamage = 5;
+    public float dashAttackHeightOffset = -1f; // How many units above the player an enemy can be while still allowing them to be a Dash Attack target
     
 
     [Header("Debug")]

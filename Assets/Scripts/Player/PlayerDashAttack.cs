@@ -53,6 +53,7 @@ public class PlayerDashAttack
         float finalDashAttackRange = GetDashAttackRange(_player.Motor.Velocity, direction);
 
         if (!TryGetBestDashAttackTarget(finalDashAttackRange, out Actor enemy)) return false;
+        Debug.Log(enemy.transform.position - _player.transform.position);
         
         float distanceToEnemy = Vector3.Distance(
             _player.mainCamera.transform.position,
@@ -168,6 +169,7 @@ public class PlayerDashAttack
         {
             if (!IsActorVisible(enemy)) continue;
             if (!TryGetActorScreenDistance(enemy, screenCenter, screenRadius, out float screenDistance)) continue;
+            if (_player.transform.position.y - enemy.transform.position.y < _player.dashAttackHeightOffset) continue;
 
             Vector3 targetPoint = GetActorTargetPoint(enemy);
             float worldDistance = Vector3.Distance(_player.mainCamera.transform.position, targetPoint);
