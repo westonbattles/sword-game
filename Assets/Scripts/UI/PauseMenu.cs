@@ -24,6 +24,8 @@ public class PauseMenu : MonoBehaviour
     CursorLockMode _previousLockState;
     bool _previousCursorVisible;
 
+    private GammaController brightnessChanger;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void CreateRuntimePauseMenu()
     {
@@ -53,6 +55,7 @@ public class PauseMenu : MonoBehaviour
     void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        brightnessChanger = FindObjectOfType<GammaController>();
     }
 
     void OnDestroy()
@@ -267,6 +270,7 @@ public class PauseMenu : MonoBehaviour
         CreateSettingsText(_settingsPanel.transform, "Settings", new Vector2(0f, 105f), 30f);
         CreateSettingsText(_settingsPanel.transform, "Sensitivity", new Vector2(-125f, 40f), 22f);
         CreateSettingsText(_settingsPanel.transform, "Music", new Vector2(-125f, -25f), 22f);
+        CreateSettingsText(_settingsPanel.transform, "Brightness", new Vector2(-125f, -90f), 22f);
 
         Slider sensitivitySlider = CreateSettingsSlider(_settingsPanel.transform, "SensitivitySlider", new Vector2(55f, 40f));
         sensitivitySlider.minValue = 0f;
@@ -278,7 +282,13 @@ public class PauseMenu : MonoBehaviour
         musicSlider.value = BackgroundMusicPlayer.MusicVolume;
         musicSlider.onValueChanged.AddListener(BackgroundMusicPlayer.SetMusicVolume);
 
-        Button backButton = CreatePauseButton(_settingsPanel.transform, "Back", new Vector2(0f, -105f));
+        Slider brightnessSlider = CreateSettingsSlider(_settingsPanel.transform, "BrightnessSlider", new Vector2(55f, -90f));
+        brightnessSlider.minValue = -1f;
+        brightnessSlider.maxValue = 1f;
+        brightnessSlider.value = 0.2f;
+        brightnessSlider.onValueChanged.AddListener(brightnessChanger.AdjustSceneGamma);
+
+        Button backButton = CreatePauseButton(_settingsPanel.transform, "Back", new Vector2(0f, -170f));
         backButton.onClick.AddListener(ShowPauseButtons);
 
         _settingsPanel.SetActive(false);
