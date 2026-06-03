@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueController
   arrowFlashDuration: 1
-  wordDisplayInterval: 0.3
+  wordDisplayInterval: 0.05
 --- !u!1 &5065229825020945284
 GameObject:
   m_ObjectHideFlags: 0

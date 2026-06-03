@@ -5885,6 +5885,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueDash
       objectReference: {fileID: 0}
+    - target: {fileID: 8699950104826679998, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25421,7 +25425,9 @@ PrefabInstance:
       propertyPath: dialogueText
       value: The entire kingdom seems to be under some kind of spell... somehow your
         mind has been spared from this magick. You've got to get out of this place
-        and find somewhere to think.
+        and find somewhere to think.[page]Luckily, you still have your sword. It's
+        imbued spells allow you to propel yourself through the air via right click.
+        Find your way through the dungeon.
       objectReference: {fileID: 0}
     - target: {fileID: 8699950104826679998, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
       propertyPath: m_Name
