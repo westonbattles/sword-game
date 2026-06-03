@@ -39,6 +39,11 @@ public class Player : MonoBehaviour, ICharacterController
     [SerializeField] float slideMomentumPreserveTime = 0.2f;
     [SerializeField] float slideStartBoost = 2f;
 
+    private Transform _playerCameraTransform;
+    private Vector3 _cameraOffset;
+    private Quaternion _cameraLocalRotation;
+    [SerializeField] PlayerCamera playerCameraController;
+    
     private bool _isCrouching;
     private bool _isSliding;
     float _slideMomentumPreserveTimer;
@@ -114,6 +119,8 @@ public class Player : MonoBehaviour, ICharacterController
     bool _isJumpingThisFrame;
     bool _skipLevelPressed;
     bool _shouldBrakeDashAttack;
+    bool _isCameraLocked;
+    bool _isSuspended;
     float _dashAttackInputRampTimer;
     float _pendingDashAttackBrakeFactor;
     float _jumpBufferCounter;
@@ -131,7 +138,17 @@ public class Player : MonoBehaviour, ICharacterController
         _dashAttack = new PlayerDashAttack(this);
         if (autoBhop) jumpBufferTime = 0.01f; // jump buffer with auto bhop feels bad
         audioSource = GetComponent<AudioSource>();
-        
+        _playerCameraTransform = mainCamera.transform.parent;
+        _cameraOffset = mainCamera.transform.localPosition;
+        _cameraLocalRotation = mainCamera.transform.localRotation;
+        if (playerCameraController == null)
+        {
+            playerCameraController = mainCamera.GetComponentInParent<PlayerCamera>();
+        }
+        if (playerCameraController == null)
+        {
+            playerCameraController = FindObjectOfType<PlayerCamera>();
+        }
     }
 
     void Start()
@@ -207,6 +224,31 @@ public class Player : MonoBehaviour, ICharacterController
         }
     }
 
+    public void LockCamera()
+    {
+        playerCameraController?.SetRotationLocked(true);
+
+        if (_isCameraLocked) return;
+
+        _isCameraLocked = true;
+        mainCamera.transform.SetParent(null, true);
+    }
+
+    public void UnlockCamera()
+    {
+        if (!_isCameraLocked)
+        {
+            playerCameraController?.SetRotationLocked(false);
+            return;
+        }
+
+        _isCameraLocked = false;
+        mainCamera.transform.SetParent(_playerCameraTransform, true);
+        mainCamera.transform.localPosition = _cameraOffset;
+        mainCamera.transform.localRotation = _cameraLocalRotation;
+        playerCameraController?.SetRotationLocked(false);
+    }
+
     void HandleAttack()
     {
         if ((!_attackInput && !_dashAttackInput)|| !readyToAttack) return;
@@ -258,6 +300,8 @@ public class Player : MonoBehaviour, ICharacterController
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
+        if (_isSuspended || _isCameraLocked) return;
+
         Vector3 forward = Vector3.ProjectOnPlane(_inputRot * Vector3.forward, _motor.CharacterUp);
         if (forward != Vector3.zero)
             currentRotation = Quaternion.LookRotation(forward, _motor.CharacterUp);
@@ -657,6 +701,7 @@ public class Player : MonoBehaviour, ICharacterController
 
     public void Suspend()
     {
+        _isSuspended = true;
         // Nullify inputs and unlock mouse for menu pressing
         InputSystem.actions["Interact"].Disable();
         Cursor.lockState = CursorLockMode.None;
@@ -666,6 +711,7 @@ public class Player : MonoBehaviour, ICharacterController
 
     public void Unsuspend()
     {
+        _isSuspended = false;
         InputSystem.actions["Interact"].Enable();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

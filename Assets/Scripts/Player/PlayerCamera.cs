@@ -15,6 +15,7 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] float cameraLerpSpeed = 12f;
 
     Vector3 _eulerAngles;
+    public bool RotationLocked { get; private set; }
 
     void Awake()
     {
@@ -27,8 +28,11 @@ public class PlayerCamera : MonoBehaviour
 
     void Update()
     {
-        Vector2 look = InputSystem.actions["Look"].ReadValue<Vector2>();
-        UpdateRotation(look);
+        if (!RotationLocked)
+        {
+            Vector2 look = InputSystem.actions["Look"].ReadValue<Vector2>();
+            UpdateRotation(look);
+        }
 
         //move cameraTarget height based on crouch state
         float targetY = Player.Instance.IsCrouching ? cameraCrouchY : cameraStandY;
@@ -49,5 +53,15 @@ public class PlayerCamera : MonoBehaviour
         _eulerAngles.y += look.x * mouseSensitivity;
         _eulerAngles.x = Mathf.Clamp(_eulerAngles.x, -maxCameraPitch, maxCameraPitch);
         transform.eulerAngles = new Vector3(_eulerAngles.x, _eulerAngles.y, 0f);
+    }
+
+    public void SetRotationLocked(bool locked)
+    {
+        RotationLocked = locked;
+
+        if (!locked)
+        {
+            _eulerAngles = transform.eulerAngles;
+        }
     }
 }

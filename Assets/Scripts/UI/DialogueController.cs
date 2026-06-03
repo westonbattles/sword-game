@@ -43,6 +43,7 @@ public class DialogueController : MonoBehaviour
 
         if (dialogueActive)
         {
+            
             DialogueAdvance.text = "Press space to skip.";
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
             {
@@ -61,6 +62,7 @@ public class DialogueController : MonoBehaviour
                     // Advance to next or close
                     dialogueActive = false;
                     gameObject.GetComponent<Player>().Unsuspend();
+                    gameObject.GetComponent<Player>().UnlockCamera();
                 }
             }
         }
@@ -90,6 +92,7 @@ public class DialogueController : MonoBehaviour
             DialogueTrigger trigger = other.GetComponent<DialogueTrigger>();
             StartDialogue(trigger);
             gameObject.GetComponent<Player>().Suspend();
+            gameObject.GetComponent<Player>().LockCamera();
             Time.timeScale = 0f;
             other.gameObject.SetActive(false);
         }
