@@ -28,6 +28,7 @@ public class LevelEndScreen : MonoBehaviour
     public void levelEnd()
     {
         Player.GetComponent<Player>().Suspend();
+        LevelTimer.Instance.StopTimer();
         endPanel.SetActive(true);
     }
 
