@@ -667,7 +667,7 @@ public class Player : MonoBehaviour, ICharacterController
         {
             HealthPickup healthPickup = other.gameObject.GetComponent<HealthPickup>();
             HealthSystem.Instance.HealDamage(healthPickup.healAmount);
-            if (healthPickup.singleUse) other.gameObject.SetActive(false);
+            if (healthPickup.singleUse) other.transform.parent.gameObject.SetActive(false);
         }
         else if (other.gameObject.CompareTag("ManaZone"))
         {
