@@ -151,8 +151,9 @@ MonoBehaviour:
   swordSwingSounds: []
   hitSounds:
   - {fileID: 8300000, guid: fae762e64e08545e19e13562b4aafe46, type: 3}
-  - {fileID: 8300000, guid: 35904125d76c64e688bff7f105c9dd51, type: 3}
+  - {fileID: 8300000, guid: 2552dc9b797fc4f85a6e9c3518f7a66f, type: 3}
   - {fileID: 8300000, guid: 2e4204a137d9f4921a81474b2f2dd2a7, type: 3}
+  - {fileID: 8300000, guid: 8e937cd24c505423eb700ebe8bc080d8, type: 3}
   swingPitchMin: 0.9
   swingPitchMax: 1.1
   hitPitchMin: 0.95

@@ -11,6 +11,9 @@ namespace Sword
     [RequireComponent(typeof(BoxCollider))]
     public class SwordController : MonoBehaviour
     {
+        const string HeldRenderLayerName = "Player";
+        const string WorldRenderLayerName = "Default";
+
         public static SwordController Instance { get; private set; }
 
         [Header("References")]
@@ -41,6 +44,8 @@ namespace Sword
         private float _throwTime;
 
         private Vector3 _dashDirection;
+        private int _defaultLayer;
+        private int _heldRenderLayer;
 
         private void Start()
         {
@@ -55,6 +60,10 @@ namespace Sword
             BoxCollider = GetComponent<BoxCollider>();
             _rigidbody = GetComponent<Rigidbody>();
             _shouldTriggerPlayerDash = false;
+            _heldRenderLayer = LayerMask.NameToLayer(HeldRenderLayerName);
+            int worldRenderLayer = LayerMask.NameToLayer(WorldRenderLayerName);
+            _defaultLayer = worldRenderLayer >= 0 ? worldRenderLayer : gameObject.layer;
+            SetHeldRenderLayer(true);
             
             BoxCollider.isTrigger = true;
             BoxCollider.enabled = false;
@@ -118,6 +127,7 @@ namespace Sword
         {
             
             IsHeld = false;
+            SetHeldRenderLayer(false);
             _throwTime = Time.time;
             _wasGroundedAtThrow = Player.Instance.IsGrounded;
             
@@ -180,6 +190,7 @@ namespace Sword
             transform.SetParent(holdPoint.transform, false);
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
+            SetHeldRenderLayer(true);
         }
         
         private float getDistFromCamera()
@@ -191,6 +202,22 @@ namespace Sword
         private static bool IsInLayerMask(int layer, LayerMask layerMask)
         {
             return (layerMask.value & (1 << layer)) != 0;
+        }
+
+        private void SetHeldRenderLayer(bool held)
+        {
+            int targetLayer = held && _heldRenderLayer >= 0 ? _heldRenderLayer : _defaultLayer;
+            SetLayerRecursively(transform, targetLayer);
+        }
+
+        private static void SetLayerRecursively(Transform root, int layer)
+        {
+            root.gameObject.layer = layer;
+
+            foreach (Transform child in root)
+            {
+                SetLayerRecursively(child, layer);
+            }
         }
     }
 }
