@@ -133,13 +133,30 @@ MonoBehaviour:
   crouchFrictionDropoff: 0.225
   slideMomentumPreserveTime: 0.5
   slideStartBoost: 2
+  playerCameraController: {fileID: 0}
+  mantleReachDistance: 0.8
+  mantleMaxLedgeHeight: 2.2
+  mantleMinLedgeHeight: 1
+  mantleRiseDuration: 0.2
+  mantleForwardDuration: 0.2
+  mantleLayers:
+    serializedVersion: 2
+    m_Bits: 0
   dashSpeed: 30
   HealthSystem: {fileID: 0}
+  levelEndScreen: {fileID: 0}
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  swordSwing: {fileID: 8300000, guid: c01a67049a357e744a4687804a4cdc62, type: 3}
-  hitSound: {fileID: 8300000, guid: 07fb184b2c30b3d46b63578c8e6d08a9, type: 3}
+  swordSwingSounds: []
+  hitSounds:
+  - {fileID: 8300000, guid: fae762e64e08545e19e13562b4aafe46, type: 3}
+  - {fileID: 8300000, guid: 35904125d76c64e688bff7f105c9dd51, type: 3}
+  - {fileID: 8300000, guid: 2e4204a137d9f4921a81474b2f2dd2a7, type: 3}
+  swingPitchMin: 0.9
+  swingPitchMax: 1.1
+  hitPitchMin: 0.95
+  hitPitchMax: 1.05
   regularAttackRange: 2
   dashAttackDuration: 0.55
   dashAttackFloatTime: 0.15
@@ -150,10 +167,13 @@ MonoBehaviour:
   dashAttackMomentumScale: 0.2
   dashAttackMaxMomentumBonus: 4
   dashAttackDamage: 5
+  dashAttackHeightOffset: -1
   depleteStamina: 0
   depleteHealth: 1
   drawDebugTargetGui: 1
   Bars: {fileID: 0}
+  keys: 
+  numKeys: 3
 --- !u!82 &3431292253711757092
 AudioSource:
   m_ObjectHideFlags: 0

@@ -28,6 +28,7 @@ public class LevelEndScreen : MonoBehaviour
     public void levelEnd()
     {
         Player.GetComponent<Player>().Suspend();
+        Player.GetComponent<Player>().LockCamera();
         LevelTimer.Instance.StopTimer();
         endPanel.SetActive(true);
     }
@@ -35,6 +36,7 @@ public class LevelEndScreen : MonoBehaviour
     void retryLevel()
     {
         UnityEngine.Debug.Log("Retry Pressed");
+        Player.GetComponent<Player>().UnlockCamera();
         Player.GetComponent<Player>().Unsuspend();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -42,6 +44,7 @@ public class LevelEndScreen : MonoBehaviour
     void nextLevel()
     {
         UnityEngine.Debug.Log("Next Level Pressed");
+        Player.GetComponent<Player>().UnlockCamera();
         Player.GetComponent<Player>().Unsuspend();
         SceneManager.LoadScene(nextLevelName);
     }
@@ -49,6 +52,8 @@ public class LevelEndScreen : MonoBehaviour
     void mainMenu()
     {
         UnityEngine.Debug.Log("Main Menu Pressed");
-        return; // Placeholder, eventually will call the main menu script to wake that one up and then put this one to sleep
+        Player.GetComponent<Player>().UnlockCamera();
+        Player.GetComponent<Player>().Unsuspend();
+        SceneManager.LoadScene("StartScreen");
     }
 }

@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/StartScreen.unity
+    guid: 2f2912ded5510921db92f2520371352b
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
@@ -20,6 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Dungeon Levels/1-1 - Fork.unity
     guid: 4980390f79e41b64ab046961c4c5dd2a
+  - enabled: 1
+    path: Assets/Scenes/Town Levels/Town 2-0.unity
+    guid: 39f62f5934ce055468340696c7770ead
+  - enabled: 1
+    path: Assets/Scenes/Castle Levels/Castle 3-0.unity
+    guid: 481702f31ea7c5c48b5a6e329012687e
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

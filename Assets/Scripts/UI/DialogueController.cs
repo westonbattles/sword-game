@@ -22,6 +22,7 @@ public class DialogueController : MonoBehaviour
     public float arrowFlashDuration = 0.5f;
     public float wordDisplayInterval = 0.15f;
     private string currentDialogueText;
+    private string currentDialogueId;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -60,6 +61,8 @@ public class DialogueController : MonoBehaviour
                 else
                 {
                     // Advance to next or close
+                    DialogueMemory.MarkSeen(currentDialogueId);
+                    currentDialogueId = null;
                     dialogueActive = false;
                     gameObject.GetComponent<Player>().Unsuspend();
                     gameObject.GetComponent<Player>().UnlockCamera();
@@ -90,6 +93,14 @@ public class DialogueController : MonoBehaviour
         if (other.CompareTag("TextTrigger"))
         {
             DialogueTrigger trigger = other.GetComponent<DialogueTrigger>();
+            if (trigger == null) return;
+
+            if (DialogueMemory.HasSeen(trigger.DialogueId))
+            {
+                other.gameObject.SetActive(false);
+                return;
+            }
+
             StartDialogue(trigger);
             gameObject.GetComponent<Player>().Suspend();
             gameObject.GetComponent<Player>().LockCamera();
@@ -104,6 +115,7 @@ public class DialogueController : MonoBehaviour
         textDone = false;
         arrowFlashStarted = false;
         currentDialogueText = trigger.dialogueText;
+        currentDialogueId = trigger.DialogueId;
         DialogueBox.text = "";
         currentTextCoroutine = StartCoroutine(DisplayTextWordByWord(currentDialogueText));
     }

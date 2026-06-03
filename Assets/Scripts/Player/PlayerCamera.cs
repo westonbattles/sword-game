@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerCamera : MonoBehaviour
 {
+    static bool _hasSensitivityDefault;
+
     [SerializeField] Transform cameraTarget;
     [SerializeField] float defaultFov = 90f;
     [SerializeField] float mouseSensitivity = 0.15f;
@@ -16,9 +18,23 @@ public class PlayerCamera : MonoBehaviour
 
     Vector3 _eulerAngles;
     public bool RotationLocked { get; private set; }
+    public static float DefaultMouseSensitivity { get; private set; } = 0.15f;
+    public static float MouseSensitivity { get; private set; } = 0.15f;
+    public static float MouseSensitivitySliderMax => Mathf.Max(DefaultMouseSensitivity * 2f, 0.01f);
 
     void Awake()
     {
+        if (!_hasSensitivityDefault)
+        {
+            DefaultMouseSensitivity = mouseSensitivity;
+            MouseSensitivity = mouseSensitivity;
+            _hasSensitivityDefault = true;
+        }
+        else
+        {
+            mouseSensitivity = MouseSensitivity;
+        }
+
         Camera.main.fieldOfView = defaultFov;
         transform.position = cameraTarget.position;
         transform.eulerAngles = _eulerAngles = cameraTarget.eulerAngles;
@@ -62,6 +78,16 @@ public class PlayerCamera : MonoBehaviour
         if (!locked)
         {
             _eulerAngles = transform.eulerAngles;
+        }
+    }
+
+    public static void SetMouseSensitivity(float sensitivity)
+    {
+        MouseSensitivity = Mathf.Max(0f, sensitivity);
+
+        foreach (PlayerCamera playerCamera in FindObjectsOfType<PlayerCamera>())
+        {
+            playerCamera.mouseSensitivity = MouseSensitivity;
         }
     }
 }

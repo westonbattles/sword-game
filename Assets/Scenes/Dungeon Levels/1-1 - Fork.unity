@@ -129231,6 +129231,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 951683083027517871, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: dialogueId
+      value: dialogue_1_1_dash_attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 951683083027517871, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
       propertyPath: dialogueText
       value: You've made it to a new wing, but you're still not out. You feel strong
         enough now to use your sword's dash attack. Press shift while looking at
@@ -159798,6 +159802,10 @@ PrefabInstance:
     - target: {fileID: 364536808110990378, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 951683083027517871, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: dialogueId
+      value: dialogue_1_1_two_locks
       objectReference: {fileID: 0}
     - target: {fileID: 951683083027517871, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
       propertyPath: dialogueText

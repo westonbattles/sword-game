@@ -15,6 +15,12 @@ public class Actor : MonoBehaviour
     bool deathHandled = false;
     public float bodyTimer = 5f;
 
+    [Header("Audio")]
+    [SerializeField] AudioClip[] deathSounds = Array.Empty<AudioClip>();
+    [SerializeField, Range(0f, 1f)] float deathVolume = 1f;
+    [SerializeField, Range(0.5f, 1.5f)] float deathPitchMin = 0.95f;
+    [SerializeField, Range(0.5f, 1.5f)] float deathPitchMax = 1.05f;
+
     [Header("Illusory Walls")]
     public bool illusoryWall = false;
     public float fadeRate = 0.5f;
@@ -42,6 +48,7 @@ public class Actor : MonoBehaviour
         // over them (specifically for dash attack enemy handeling)
         Renderers = GetComponentsInChildren<Renderer>();
         Colliders = GetComponentsInChildren<Collider>();
+        LoadDefaultDeathSounds();
         
         currentHealth = maxHealth;
         if (illusoryWall) // Only handled for the updating of transparency on illusory walls
@@ -119,9 +126,17 @@ public class Actor : MonoBehaviour
         if (deathHandled) return;
         deathHandled = true;
 
+        PlayDeathSound();
+
         // TEMPORARY: Destroy upon death
         // Later we want to add animations and likely some splatter effects too to make it feel more satisfying
         GruntController gruntController = gameObject.GetComponent<GruntController>();
+        if (gruntController == null)
+        {
+            Invoke(nameof(Delete), bodyTimer);
+            return;
+        }
+
         if (hasDashAttackRagdollDirection)
         {
             gruntController.DeathHandling(dashAttackRagdollDirection);
@@ -131,6 +146,33 @@ public class Actor : MonoBehaviour
             gruntController.DeathHandling();
         }
         Invoke(nameof(Delete), bodyTimer);
+    }
+
+    void LoadDefaultDeathSounds()
+    {
+        if (deathSounds != null && deathSounds.Length > 0) return;
+
+        deathSounds = Resources.LoadAll<AudioClip>("Audio/SFX/Death");
+    }
+
+    void PlayDeathSound()
+    {
+        if (deathSounds == null || deathSounds.Length == 0) return;
+
+        AudioClip clip = deathSounds[UnityEngine.Random.Range(0, deathSounds.Length)];
+        if (clip == null) return;
+
+        GameObject soundObject = new GameObject("EnemyDeathSound");
+        soundObject.transform.position = transform.position;
+
+        AudioSource source = soundObject.AddComponent<AudioSource>();
+        source.clip = clip;
+        source.volume = deathVolume;
+        source.pitch = UnityEngine.Random.Range(deathPitchMin, deathPitchMax);
+        source.spatialBlend = 1f;
+        source.Play();
+
+        Destroy(soundObject, clip.length / Mathf.Max(0.01f, Mathf.Abs(source.pitch)));
     }
 
     void Delete()

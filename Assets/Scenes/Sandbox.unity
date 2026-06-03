@@ -7424,6 +7424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb19d535e1cb48e4cbbd6ce7dd82fc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueTrigger
+  dialogueId: dialogue_sandbox_testing
   dialogueText: testing
 --- !u!1 &262533873
 GameObject:
@@ -28031,6 +28032,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 951683083027517871, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
+      propertyPath: dialogueId
+      value: dialogue_sandbox_prefab_test
+      objectReference: {fileID: 0}
+    - target: {fileID: 951683083027517871, guid: 9d7be17af5eaace41bb1daa931065ee8, type: 3}
       propertyPath: dialogueText
       value: This is a test of the prefab
       objectReference: {fileID: 0}
@@ -28495,6 +28500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb19d535e1cb48e4cbbd6ce7dd82fc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  dialogueId: dialogue_sandbox_sample_text
   dialogueText: This is a sample text to be read in the dialogue box.
 --- !u!1 &1141927437
 GameObject:
@@ -41373,6 +41379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb19d535e1cb48e4cbbd6ce7dd82fc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  dialogueId: dialogue_sandbox_third_trigger
   dialogueText: This is the third trigger in the testing area.
 --- !u!54 &1701892476
 Rigidbody:

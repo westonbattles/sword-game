@@ -73,8 +73,12 @@ public class Player : MonoBehaviour, ICharacterController
 
     [Header("Attacking")] 
     public LayerMask enemyLayerMask;
-    public AudioClip swordSwing;
-    public AudioClip hitSound;
+    [SerializeField] AudioClip[] swordSwingSounds = Array.Empty<AudioClip>();
+    [SerializeField] AudioClip[] hitSounds = Array.Empty<AudioClip>();
+    [SerializeField, Range(0.5f, 1.5f)] float swingPitchMin = 0.9f;
+    [SerializeField, Range(0.5f, 1.5f)] float swingPitchMax = 1.1f;
+    [SerializeField, Range(0.5f, 1.5f)] float hitPitchMin = 0.95f;
+    [SerializeField, Range(0.5f, 1.5f)] float hitPitchMax = 1.05f;
     public bool attacking { get; private set; } = false;
     bool readyToAttack = true;
     
@@ -109,6 +113,7 @@ public class Player : MonoBehaviour, ICharacterController
     public bool IsCrouching => _isCrouching;
     public bool IsSliding => _isSliding;
     public bool IsJumpHeld { get; private set; }
+    public bool IsGameplayInputLocked => _isSuspended || _isCameraLocked || Time.timeScale == 0f;
 
     KinematicCharacterMotor _motor;
     Quaternion _inputRot;
@@ -138,6 +143,7 @@ public class Player : MonoBehaviour, ICharacterController
         _dashAttack = new PlayerDashAttack(this);
         if (autoBhop) jumpBufferTime = 0.01f; // jump buffer with auto bhop feels bad
         audioSource = GetComponent<AudioSource>();
+        LoadDefaultSwingSounds();
         _playerCameraTransform = mainCamera.transform.parent;
         _cameraOffset = mainCamera.transform.localPosition;
         _cameraLocalRotation = mainCamera.transform.localRotation;
@@ -162,6 +168,12 @@ public class Player : MonoBehaviour, ICharacterController
     void Update()
     {
         UpdateInput();
+
+        if (IsGameplayInputLocked)
+        {
+            ClearGameplayInput();
+            return;
+        }
         
         // reset attack when swing animation stops
         bool swingAnimationNotPlaying = !PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Armature|SwordSwing");
@@ -251,6 +263,7 @@ public class Player : MonoBehaviour, ICharacterController
 
     void HandleAttack()
     {
+        if (IsGameplayInputLocked) return;
         if ((!_attackInput && !_dashAttackInput)|| !readyToAttack) return;
         if (SwordController.Instance.IsHeld == false) return; // cant swing / attack
         
@@ -355,7 +368,7 @@ public class Player : MonoBehaviour, ICharacterController
             //Debug.Log("AllLayers hit nothing — collider may be a trigger or missing entirely");
         }
 
-        // 1. Wall check — sweep multiple heights, no layer mask to confirm geometry
+        // 1. Wall check - sweep multiple heights against mantleable geometry only.
         float[] wallCheckHeights = { 0.3f, 0.6f, 0.9f, 1.2f, standingHeight * 0.8f };
         RaycastHit wallHit = default;
         bool foundWall = false;
@@ -365,8 +378,10 @@ public class Player : MonoBehaviour, ICharacterController
             Vector3 origin = feet + _motor.CharacterUp * height;
             //Debug.DrawRay(origin, forward * mantleReachDistance, Color.red, 1f);
             if (Physics.Raycast(origin, forward, out wallHit, mantleReachDistance,
-                Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                mantleMask, QueryTriggerInteraction.Ignore))
             {
+                if (IsEnemyMantleCollider(wallHit.collider)) continue;
+
                 foundWall = true;
                 //Debug.Log($"Wall hit at height {height} on object {wallHit.collider.gameObject.name} layer {LayerMask.LayerToName(wallHit.collider.gameObject.layer)}");
                 break;
@@ -383,9 +398,13 @@ public class Player : MonoBehaviour, ICharacterController
         Vector3 castOrigin = wallHit.point + _motor.CharacterUp * (mantleMaxLedgeHeight + 0.5f) + forward * 0.1f;
         Debug.DrawRay(castOrigin, -_motor.CharacterUp * (mantleMaxLedgeHeight + 0.5f), Color.blue, 1f);
         if (!Physics.Raycast(castOrigin, -_motor.CharacterUp, out RaycastHit ledgeHit,
-            mantleMaxLedgeHeight + 0.5f, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            mantleMaxLedgeHeight + 0.5f, mantleMask, QueryTriggerInteraction.Ignore))
         {
             //Debug.Log("No ledge surface found above wall hit.");
+            return false;
+        }
+        if (IsEnemyMantleCollider(ledgeHit.collider))
+        {
             return false;
         }
         //Debug.Log($"Ledge detected at height {ledgeHit.point.y}, relative: {ledgeHit.point.y - feet.y}");
@@ -415,6 +434,13 @@ public class Player : MonoBehaviour, ICharacterController
         _motor.ForceUnground(mantleRiseDuration + mantleForwardDuration);
         //Debug.Log("Mantle started successfully.");
         return true;
+    }
+
+    bool IsEnemyMantleCollider(Collider coll)
+    {
+        if (coll == null) return false;
+        if (enemyLayerMask.value != 0 && (enemyLayerMask.value & (1 << coll.gameObject.layer)) != 0) return true;
+        return coll.GetComponentInParent<Actor>() != null;
     }
 
     void VelocitySet(ref Vector3 currentVelocity, float dt)
@@ -651,6 +677,7 @@ public class Player : MonoBehaviour, ICharacterController
 
     public void Attack()
     {
+        if (IsGameplayInputLocked) return;
         if (!readyToAttack || attacking) return;
 
         readyToAttack = false;
@@ -658,17 +685,38 @@ public class Player : MonoBehaviour, ICharacterController
 
         SwordController.Instance.StartSwingHitbox();
 
-        audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-        audioSource.PlayOneShot(swordSwing);
+        PlayRandomSound(swordSwingSounds, swingPitchMin, swingPitchMax);
         Debug.Log("Attack function completed.");
     }
 
     public void PlaySwordHitSound()
     {
-        if (hitSound == null) return;
-        
+        if (IsGameplayInputLocked) return;
+        PlayRandomSound(hitSounds, hitPitchMin, hitPitchMax);
+    }
+
+    void LoadDefaultSwingSounds()
+    {
+        if (swordSwingSounds != null && swordSwingSounds.Length > 0) return;
+
+        swordSwingSounds = new[]
+        {
+            Resources.Load<AudioClip>("Audio/SFX/Swing/swing_low"),
+            Resources.Load<AudioClip>("Audio/SFX/Swing/swing_low2"),
+            Resources.Load<AudioClip>("Audio/SFX/Swing/swing_low3")
+        };
+    }
+
+    void PlayRandomSound(AudioClip[] clips, float minPitch, float maxPitch)
+    {
+        if (audioSource == null || clips == null || clips.Length == 0) return;
+
+        AudioClip clip = clips[UnityEngine.Random.Range(0, clips.Length)];
+        if (clip == null) return;
+
+        audioSource.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
+        audioSource.PlayOneShot(clip);
         audioSource.pitch = 1f;
-        audioSource.PlayOneShot(hitSound);
     }
 
     public void ResetAttack()
@@ -676,6 +724,17 @@ public class Player : MonoBehaviour, ICharacterController
         attacking = false;
         readyToAttack = true;
         SwordController.Instance.StopSwingHitbox();
+    }
+
+    void ClearGameplayInput()
+    {
+        _moveInput = Vector2.zero;
+        IsJumpHeld = false;
+        _jumpInput = false;
+        _attackInput = false;
+        _dashAttackInput = false;
+        _skipLevelPressed = false;
+        _jumpBufferCounter = 0f;
     }
 
     public void ResetAttackAnimation()

@@ -154,5 +154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb19d535e1cb48e4cbbd6ce7dd82fc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  dialogueId: dialogue_prefab_text_trigger
   dialogueText: This is the a sample text to be displayed in the dialogue box. Modify
     this text as you wish.
