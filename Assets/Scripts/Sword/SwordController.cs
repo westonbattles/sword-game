@@ -23,6 +23,9 @@ namespace Sword
         [Header("Throw")]
         [SerializeField] float throwSpeed = 10f;
         [SerializeField] float maxThrowDistance = 5f;
+        [SerializeField] AudioClip[] throwSounds = System.Array.Empty<AudioClip>();
+        [SerializeField, Range(0.5f, 1.5f)] float throwPitchMin = 0.95f;
+        [SerializeField, Range(0.5f, 1.5f)] float throwPitchMax = 1.05f;
 
         [Header("Swing")]
         [SerializeField] LayerMask enemyLayer;
@@ -33,6 +36,7 @@ namespace Sword
 
         private Rigidbody _rigidbody;
         private KinematicCharacterMotor _playerMotor;
+        private AudioSource _audioSource;
 
         private readonly HashSet<Actor> _hitActorsThisSwing = new();
 
@@ -59,6 +63,12 @@ namespace Sword
             IsHeld = true;
             BoxCollider = GetComponent<BoxCollider>();
             _rigidbody = GetComponent<Rigidbody>();
+            _audioSource = GetComponent<AudioSource>();
+            if (_audioSource == null)
+            {
+                _audioSource = gameObject.AddComponent<AudioSource>();
+            }
+            _audioSource.playOnAwake = false;
             _shouldTriggerPlayerDash = false;
             _heldRenderLayer = LayerMask.NameToLayer(HeldRenderLayerName);
             int worldRenderLayer = LayerMask.NameToLayer(WorldRenderLayerName);
@@ -127,6 +137,7 @@ namespace Sword
         {
             
             IsHeld = false;
+            PlayRandomSound(throwSounds, throwPitchMin, throwPitchMax);
             SetHeldRenderLayer(false);
             _throwTime = Time.time;
             _wasGroundedAtThrow = Player.Instance.IsGrounded;
@@ -218,6 +229,18 @@ namespace Sword
             {
                 SetLayerRecursively(child, layer);
             }
+        }
+
+        private void PlayRandomSound(AudioClip[] clips, float minPitch, float maxPitch)
+        {
+            if (_audioSource == null || clips == null || clips.Length == 0) return;
+
+            AudioClip clip = clips[Random.Range(0, clips.Length)];
+            if (clip == null) return;
+
+            _audioSource.pitch = Random.Range(minPitch, maxPitch);
+            _audioSource.PlayOneShot(clip);
+            _audioSource.pitch = 1f;
         }
     }
 }

@@ -67,6 +67,9 @@ public class Player : MonoBehaviour, ICharacterController
     [SerializeField] public float dashSpeed = 10f;
     [SerializeField] private HealthSystem HealthSystem;
     [SerializeField] private LevelEndScreen levelEndScreen;
+    [SerializeField] AudioClip[] launchSounds = Array.Empty<AudioClip>();
+    [SerializeField, Range(0.5f, 1.5f)] float launchPitchMin = 0.95f;
+    [SerializeField, Range(0.5f, 1.5f)] float launchPitchMax = 1.05f;
     public event Action OnJump;
     public event Action OnLand;
 
@@ -326,6 +329,7 @@ public class Player : MonoBehaviour, ICharacterController
         _dashVelocity = directionNormalized * speed;
         _shouldDash = true;
         _isDashing = true;
+        PlayRandomSound(launchSounds, launchPitchMin, launchPitchMax);
 
         // if the attack is a dash attack, enable enemy plowing
         if (dashAttack)

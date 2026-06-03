@@ -195,6 +195,10 @@ MonoBehaviour:
   cameraTransform: {fileID: 7180086620925359996}
   throwSpeed: 10
   maxThrowDistance: 3
+  throwSounds:
+  - {fileID: 8300000, guid: 69548e823944a43549b8b300807f032d, type: 3}
+  throwPitchMin: 0.95
+  throwPitchMax: 1.05
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128

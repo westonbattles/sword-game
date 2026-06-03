@@ -145,6 +145,10 @@ MonoBehaviour:
   dashSpeed: 30
   HealthSystem: {fileID: 0}
   levelEndScreen: {fileID: 0}
+  launchSounds:
+  - {fileID: 8300000, guid: 435434311719c4428830682e0d91aa2b, type: 3}
+  launchPitchMin: 0.95
+  launchPitchMax: 1.05
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
